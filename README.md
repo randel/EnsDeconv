@@ -3,10 +3,8 @@ EnsDeconv (Ensemble Deconvolution) which uses ensemble learning to to robustly e
 
 ## Installation
 ```
-$ R
-> library(devtools)
-> install_github("randel/EnsDeconv")
+devtools::install_github("randel/EnsDeconv")
 ```
 
 ## Workflow
-<img src="./images/EnsDeconv algorithm.png" width="600" height="200" />
+<img src="./images/EnsDeconv algorithm.png"/>
