@@ -1,0 +1,25 @@
+Package: deconv.ensemble
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.1
+Author: Manqi Cai
+Maintainer: The package maintainer <mac538@pitt.edu>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+Imports: 
+    CellMix, nnls, dtangle, EPIC, limma, reshape2, TOAST, edgeR, MuSiC, BisqueRNA, SCDC, xbioc, TED, doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
+    stringr, tidyr, progress, doSNOW, Biobase, caret, deconvSeq, e1071, ggpubr, ggridges
+Suggests: 
+    declassification,
+    markerpen,
+    testthat,
+    knitr,
+    rmarkdown,
+    ggplot2
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 3.5.0)
+VignetteBuilder: knitr
