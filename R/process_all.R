@@ -27,7 +27,6 @@
 #' @param get_metric Logical, calculating metric or not
 #' @param rm_dmeths Logical, remove several deconvolution methods or not when ensemble
 #'
-#' @export
 
 
 process_all <- function(allfold_res,allgene_res,df_true = NULL,trueMet = NULL,feature_selection = TRUE,lambda = NULL,incl_lasso = FALSE,get_metric = TRUE,rm_dmeths = TRUE,r2 = FALSE,r2_ind = NULL,scale = "log",transformation = "CPM",optimization = FALSE){

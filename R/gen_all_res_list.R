@@ -34,8 +34,6 @@
 #' @param rm.duplicated Logical. Remove duplicated genes after maker gene selection. Default: FALSE.
 #' @param mrkpen Logical. Apply markerpen on marker gene list. Default: FALSE.
 #'
-#'
-#' @export
 #' @import parallel
 #' @importFrom progress progress_bar
 #' @importFrom doSNOW registerDoSNOW

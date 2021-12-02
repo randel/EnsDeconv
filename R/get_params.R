@@ -1,4 +1,5 @@
 #' This function allows you generate parameters for ensemble deconvolution.
+#'
 #' @param Normalization normalization methods for bulk gene expression and reference gene expression
 #'
 #' (Option) Vector of string. Defaults are "CPM", "TPM" and "none"
@@ -47,8 +48,10 @@
 #'
 #' @param teqc Logical. Use same normalization between bulk data and reference data. Default: TRUE.
 #' @param batchcorrec Logical. Apply batch correction or not. Default: FALSE
+#' @import dplyr
+#' @return  a data.frame that each row corresponding to specific scenario
 #' @export
-#'
+
 get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormalization = c("CPM","none","TPM","TMM","QN"), Scale = c("log","linear"), data_type, data_name, n_markers = 50, Marker.Method = c("t","wilcox","combined","none","p.value","regression"),dmeths = NULL,teqc = TRUE,batchcorrec =FALSE,RB_only = TRUE){
  
    if(is.null(dmeths)){

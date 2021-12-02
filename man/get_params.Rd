@@ -69,6 +69,9 @@ expression of that gene by the second most highly expressed cell type.}
 
 (Option) Vector of string. Defaults are "CPM", "TPM" and "none"}
 }
+\value{
+a data.frame that each row corresponding to specific scenario
+}
 \description{
 This function allows you generate parameters for ensemble deconvolution.
 }

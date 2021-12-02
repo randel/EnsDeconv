@@ -13,7 +13,7 @@
 #  select.ct vector of cell types included, default as \code{NULL}. If \code{NULL}, include all cell types in \code{x}
 # @return gene by cell type matrix of average relative abundance
 #
-# @export
+
 music_M.theta = function(x, non.zero, markers, clusters, samples, select.ct){
   if(!is.null(select.ct)){
     s.ct = sampleNames(x)[as.character(pVar(x, clusters)) %in% select.ct]

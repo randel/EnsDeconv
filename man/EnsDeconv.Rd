@@ -69,6 +69,9 @@ EnsDeconv(
 \item{data_name}{Data description.
 (Optional) Only input when you want default params. Character in format "Bulk data name-reference data name"}
 }
+\value{
+A list containing the output of the EnsDeconv algorithm and output from each scenarios
+}
 \description{
 This function is a wrapper for EnsDeconv
 }

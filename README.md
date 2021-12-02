@@ -7,4 +7,9 @@ devtools::install_github("randel/EnsDeconv")
 ```
 
 ## Workflow
-<img src="./images/EnsDeconv_algorithm.png"/>
+<img src = "./man/figures/EnsDeconv_algorithm.png">
+
+
+More Information
+-----------------
+Please see [Tutorial](http://randel.github.io/EnsDeconv/docs/index.html).

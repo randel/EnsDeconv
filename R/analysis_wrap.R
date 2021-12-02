@@ -8,7 +8,6 @@
 #' @import ggpubr
 #' @import Rsolnp
 #'
-#' @export
 
 get_res_wrap <- function(allfold_res,allgene_res,df_true,trueMet ,feature_selection = FALSE,lambda = NULL,incl_lasso = FALSE,get_metric = TRUE,r2 = FALSE,r2_ind = NULL,scale = "log",transformation = "none",optimization = TRUE){
 
