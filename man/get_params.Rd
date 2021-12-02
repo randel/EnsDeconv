@@ -11,8 +11,8 @@ get_params(
   data_type,
   data_name,
   n_markers = 50,
-  Marker.Method = c("t", "wilcox", "combined", "none"),
-  pval.type = "all",
+  Marker.Method = c("t", "wilcox", "combined", "none", "p.value", "regression"),
+  dmeths = NULL,
   teqc = TRUE,
   batchcorrec = FALSE,
   RB_only = TRUE
@@ -41,7 +41,9 @@ get_params(
 
 How many markers genes to use for deconvolution. Can either be a single integer, vector of integers. All cell types use the same number of markers.}
 
-\item{Marker.Method}{Method used to choose marker genes
+\item{Marker.Method}{Method used to choose marker genes}
+
+\item{dmeths}{Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.
 
 \itemize{
 \item{'ratio'}{ selects and ranks markers by the ratio of the mean expression of each gene in each cell type to the mean of that gene in all other cell types.}
