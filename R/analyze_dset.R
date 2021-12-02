@@ -1,6 +1,6 @@
 #This function is intended to prepare data markers for deconvolution
 ############ analyze_dset
-analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normalize,   customed_markers = NULL, markers_range = NULL,batchcorrec,scale,rm.duplicated = TRUE,mrkpen = FALSE) {
+analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normalize, customed_markers = NULL, markers_range = NULL,batchcorrec = F,scale,rm.duplicated = TRUE,mrkpen = FALSE) {
 
   p_hat <- list()
   p_hat_bc <- list()
@@ -40,7 +40,7 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
   }else if(method %in% c("t","binom","wilcox")){
 
-    out <-  findMarkers(dset$data$data_c, groups=dset$data$meta_ref$deconv_clust,direction="up",test=method,pval.type =all)
+    out <-  findMarkers(dset$data$data_c, groups=dset$data$meta_ref$deconv_clust,direction="up",test=method,pval.type ="all")
 
 
     mrks_old <-  lapply(out, function(x) x@rownames[1:n_markers])
@@ -55,8 +55,8 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
   }else if(method == "combined"){
     out <- multiMarkerStats(
-      t=findMarkers(dset$data$data_c, groups=dset$data$meta_ref$deconv_clust,direction="up",test="t",pval.type =pval.type),
-      wilcox=findMarkers(dset$data$data_c, groups=dset$data$meta_ref$deconv_clust,direction="up",test="wilcox",pval.type =pval.type))
+      t=findMarkers(dset$data$data_c, groups=dset$data$meta_ref$deconv_clust,direction="up",test="t",pval.type ="all"),
+      wilcox=findMarkers(dset$data$data_c, groups=dset$data$meta_ref$deconv_clust,direction="up",test="wilcox",pval.type ="all"))
 
     mrks_old <-  lapply(out, function(x) x@rownames[1:n_markers])
 
@@ -153,14 +153,14 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
 
 analyze <- function(method, q, n_markers,gamma, dmeths = NULL, verb = TRUE, normalize = TRUE,scale = scale,
-                    datasets = NULL, scl = function(x) 2^x, customed_markers = NULL,Scale,markers_range = NULL,pval.type,batchcorrec = FALSE,rm.duplicated = TRUE,mrkpen = FALSE) {
+                    datasets = NULL, scl = function(x) 2^x, customed_markers = NULL,Scale,markers_range = NULL,batchcorrec = FALSE,rm.duplicated = TRUE,mrkpen = FALSE) {
   sig <- paste(method, q, gamma)
   updt(paste(sig, "Starting."), init = TRUE)
 
   start_time <- Sys.time()
 
   output <- lapply(datasets, function(dset) analyze_dset(dset, method =method, q = q,n_markers =n_markers, gamma=gamma,
-                                                         dmeths = dmeths, verb = verb, normalize = normalize, customed_markers = customed_markers,markers_range = markers_range,pval.type = pval.type,feature.select = feature.select,batchcorrec = batchcorrec,scale = scale,rm.duplicated = rm.duplicated,mrkpen = mrkpen ))
+                                                         dmeths = dmeths, verb = verb, normalize = normalize, customed_markers = customed_markers,scale = scale,rm.duplicated = rm.duplicated,mrkpen = mrkpen ))
   end_time <- Sys.time()
 
 
