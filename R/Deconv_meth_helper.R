@@ -431,10 +431,10 @@ DeconRNASeq_wrap <- function(to_deconv,sig_matrix){
 ################ GEDIT ##################
 GEDIT_wrap = function(ref,mix){
   mix_names = colnames(mix)
-  write.table(ref, file="D:/Manqi/tmp/ref.tsv", quote=FALSE, sep='\t', col.names = NA)
+  write.table(ref, file="./tmp/ref.tsv", quote=FALSE, sep='\t', col.names = NA)
 
-  write.table(mix, file="D:/Manqi/tmp/mix.tsv", quote=FALSE, sep='\t', col.names = NA)
-  x ='python D:/Manqi/GEDIT/GEDITv1.7/scripts/GEDIT.py -mix D:/Manqi/tmp/mix.tsv -ref D:/Manqi/tmp/ref.tsv'
+  write.table(mix, file="./tmp/mix.tsv", quote=FALSE, sep='\t', col.names = NA)
+  x ='python ./scripts/GEDIT.py -mix ./tmp/mix.tsv -ref ./tmp/ref.tsv'
   res1 = system(x, intern = TRUE)
   if(length(res1) == 3){
     mix = gsub("\\\\", "/",res1[[2]])
