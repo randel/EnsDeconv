@@ -68,8 +68,8 @@
 #'
 #' params  = get_params("none","none","log","singlecell-rna","test_test",20,"p.value")
 #'
-#' gen_all_res_list(count_bulk = testdata$count_bulk,meta_bulk = testdata$meta_bulk,ref_list = testdata$ref_list, true_frac = testdata$true_frac,ncv_input =2,
-#' outpath ="D:/ensemble deconvolution/test/" ,ncore = 12,parallel_comp = TRUE, params = params)
+#' gen_all_res_list(count_bulk = testdata$count_bulk,meta_bulk = testdata$meta_bulk,ref_list = testdata$ref_list, true_frac = testdata$true_frac,
+#' outpath ="./tmp/" ,ncore = 12,parallel_comp = TRUE, params = params)
 #'
 #'
 gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_markers = NULL,markers_range = NULL,true_frac = NULL,params = NULL,
@@ -83,8 +83,6 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
   if(is.null(params)){
     params <- get_params(data_type = "singlecell-rna", data_name = names(ref_list))
   }
-
-
 
   count_bulk = filterzerovar(count_bulk)
 
@@ -120,7 +118,8 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
   registerDoSNOW(cl)
   clusterCall(cl, function(x) .libPaths(x), .libPaths())
     res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass',
-                      .packages = c("SCDC","MuSiC","Bisque","TED","TOAST","EPIC", "dtangle","CellMix","nnls","xbioc","Biobase","scran","DeCompress","ICeDT","DeconRNASeq","preprocessCore","glmnet","sva","hspe","RVenn","markerpen","FARDEEP","ComICS","edgeR","BayICE","reticulate","effsize","Seurat","dplyr")) %dopar% {
+                      .packages = c("SCDC","MuSiC","BisqueRNA","TED","TOAST","EPIC", "dtangle","CellMix","nnls","xbioc","Biobase","scran","DeCompress","ICeDT","DeconRNASeq","preprocessCore","glmnet","sva","hspe","RVenn","markerpen","FARDEEP","ComICS","edgeR","BayICE","reticulate","effsize","Seurat","dplyr")) %dopar% {
+      
       p = params[i,]
       logdir <- paste0(outpath,p$data_name,"/Analysis/")
       dir.create(logdir, showWarnings = FALSE, recursive = TRUE)
@@ -130,48 +129,16 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
         # Prepare data sets
         Dataset = get_input_ensemble(count_bulk = count_bulk, ref_matrix = ref_list[[p$data_name]]$ref_matrix, meta_bulk = meta_bulk,
                                      meta_ref = ref_list[[p$data_name]]$meta_ref, true_frac = true_frac,params = p)
-        # ensemble_dat = lapply(Dataset,function(x) x[["ensemble"]])
-# 
-#         if(is.null(dmeths)){# Get deconvolution methods
-#         dmeths_ori <- c("dtangle", "hspe","deconf","ssFrobenius","ssKL","DSA","Q Prog","LS Fit","CIBERSORT","logRegression","linearRegression","EPIC","TOASTP","MuSiC","Bisque","GEDIT", "ICeDT","DeconRNASeq", "BayesPrism")
-# 
-#         if (p$Scale == "log"){
-#           # dmeths = c("hspe","dtangle", "LS Fit","CIBERSORT", "EPIC","deconf", "ssFrobenius", "ssKL", "DSA", "Q Prog","logRegression","linearRegression","TOASTP","ICeDT","DeconRNASeq")
-#           rm_dmeths <- c("Bisque","MuSiC","logRegression")
-#           dmeths <- setdiff(dmeths_ori,rm_dmeths)
-#         }else if(p$TNormalization == "none"& p$CNormalization == "none" & p$data_type == "singlecell-rna"){
-#           dmeths <- dmeths_ori
-#         }else if(p$TNormalization == "none"& p$CNormalization == "none" & p$data_type != "singlecell-rna"){
-#           # dmeths = c("LS Fit", "CIBERSORT", "EPIC","deconf", "ssFrobenius", "ssKL", "DSA", "Q Prog", "logRegression","linearRegression","TOASTP","ICeDT","DeconRNASeq","GEDIT")
-#           rm_dmeths <- c("Bisque","MuSiC")
-#           dmeths <- setdiff(dmeths_ori,rm_dmeths)
-#         }else if(p$data_type == "singlecell-rna" & p$Scale == "linear"){
-#           # dmeths = c("MuSiC","LS Fit","CIBERSORT", "EPIC","BayesPrism_GEP","deconf", "ssFrobenius", "ssKL", "DSA", "Q Prog", "logRegression","linearRegression","TOASTP","ICeDT","DeconRNASeq")
-#           rm_dmeths <- c("Bisque","dtangle","hspe","GEDIT")
-#           dmeths <- setdiff(dmeths_ori,rm_dmeths)
-#         }else{
-#           # dmeths = c("LS Fit","CIBERSORT", "EPIC","deconf", "ssFrobenius", "ssKL", "DSA", "Q Prog", "logRegression","linearRegression","TOASTP","ICeDT","DeconRNASeq")
-#           rm_dmeths <- c("Bisque","MuSiC","dtangle","hspe","GEDIT")
-#           dmeths <- setdiff(dmeths_ori,rm_dmeths)
-#         }
-# 
-#         if(p$Marker.Method %in% c("linseed","TOAST")){
-#           rm_dmeths = c("hspe","dtangle", "deconf", "ssFrobenius", "ssKL", "DSA","TOASTP","MuSiC","Bisque")
-#           dmeths = setdiff(dmeths,rm_dmeths)
-#         }
-# 
-#         if(p$Marker.Method == "none" & p$data_type == "singlecell-rna"){
-#           dmeths = c("Bisque","MuSiC")
-#         }}
+
 
         # analyze data
         a <- analyze(p$Marker.Method,q =  p$Quantile,n_markers = p$n_markers, gamma = p$gamma,dmeths = p$dmeths,
                          normalize = p$Normalize, datasets = Dataset,scale = p$Scale,
-                         customed_markers = customed_markers,markers_range = markers_range,pval.type = p$pval.type,feature.select = feature.select,batchcorrec = p$batchcorrec,rm.duplicated = rm.duplicated,mrkpen = mrkpen)
+                         customed_markers = customed_markers,rm.duplicated = rm.duplicated)
         if(!is.null(outpath)){
           dir.create(paste0(outpath,p$data_name), showWarnings = FALSE, recursive = TRUE)
           dir.create(paste0(outpath,p$data_name,"/cases/"), showWarnings = FALSE, recursive = TRUE)
-          saveRDS(list(a = a, p = p,ensemble = ensemble_dat), file = paste0(outpath,p$data_name,"/cases/", paste0(params[i, ], collapse = "_"),  ".rds"))
+          saveRDS(list(a = a, p = p), file = paste0(outpath,p$data_name,"/cases/", paste0(params[i, ], collapse = "_"),  ".rds"))
           
         }
           base::message(base::sprintf("Remaining %i ", i),
@@ -195,58 +162,23 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
       require(SCDC)
       Dataset = get_input_ensemble(count_bulk = count_bulk, ref_matrix = ref_list[[p$data_name]]$ref_matrix, meta_bulk = meta_bulk,
                                    meta_ref = ref_list[[p$data_name]]$meta_ref, true_frac = true_frac,params = p)
-      ensemble_dat = NULL
-      if(ncv_input >1){
-        ensemble_dat = lapply(Dataset,function(x) x[["ensemble"]])
-      }
 
-      # Get deconvolution methods
-      # dmeths_ori <- c("dtangle", "hspe","deconf","ssFrobenius","ssKL","DSA","Q Prog","LS Fit","CIBERSORT","logRegression","linearRegression","EPIC","TOASTP","MuSiC","Bisque","GEDIT", "ICeDT","DeconRNASeq", "BayesPrism")
-      # 
-      # if (p$Scale == "log"){
-      #   # dmeths = c("hspe","dtangle", "LS Fit","CIBERSORT", "EPIC","deconf", "ssFrobenius", "ssKL", "DSA", "Q Prog","logRegression","linearRegression","TOASTP","ICeDT","DeconRNASeq")
-      #   rm_dmeths <- c("Bisque","MuSiC","BayesPrism","logRegression")
-      #   dmeths <- setdiff(dmeths_ori,rm_dmeths)
-      # }else if(p$TNormalization == "none"& p$CNormalization == "none" & p$data_type == "singlecell-rna"){
-      #   dmeths <- dmeths_ori
-      # }else if(p$TNormalization == "none"& p$CNormalization == "none" & p$data_type != "singlecell-rna"){
-      #   # dmeths = c("LS Fit", "CIBERSORT", "EPIC","deconf", "ssFrobenius", "ssKL", "DSA", "Q Prog", "logRegression","linearRegression","TOASTP","ICeDT","DeconRNASeq","GEDIT")
-      #   rm_dmeths <- c("Bisque","MuSiC","BayesPrism")
-      #   dmeths <- setdiff(dmeths_ori,rm_dmeths)
-      # }else if(p$data_type == "singlecell-rna" & p$Scale == "linear"){
-      #   # dmeths = c("MuSiC","LS Fit","CIBERSORT", "EPIC","BayesPrism_GEP","deconf", "ssFrobenius", "ssKL", "DSA", "Q Prog", "logRegression","linearRegression","TOASTP","ICeDT","DeconRNASeq")
-      #   rm_dmeths <- c("Bisque","BayesPrism","dtangle","hspe","GEDIT")
-      #   dmeths <- setdiff(dmeths_ori,rm_dmeths)
-      # }else{
-      #   # dmeths = c("LS Fit","CIBERSORT", "EPIC","deconf", "ssFrobenius", "ssKL", "DSA", "Q Prog", "logRegression","linearRegression","TOASTP","ICeDT","DeconRNASeq")
-      #   rm_dmeths <- c("Bisque","MuSiC","BayesPrism","dtangle","hspe","GEDIT")
-      #   dmeths <- setdiff(dmeths_ori,rm_dmeths)
-      # }
-      # 
-      # if(p$Marker.Method %in% c("linseed","TOAST")){
-      #   rm_dmeths = c("hspe","dtangle", "deconf", "ssFrobenius", "ssKL", "DSA","TOASTP","MuSiC","Bisque")
-      #   dmeths = setdiff(dmeths,rm_dmeths)
-      # }
-      # 
-      # if(p$Marker.Method == "none" & p$data_type == "singlecell-rna"){
-      #     dmeths = c("Bisque","MuSiC")
-      # }
 
         a <- analyze(p$Marker.Method,q =  p$Quantile,n_markers = p$n_markers, gamma = p$gamma,dmeths = p$dmeths,
                          normalize = p$Normalize, datasets = Dataset,scale = p$Scale,
-                         customed_markers = customed_markers,markers_range = markers_range,pval.type = p$pval.type,feature.select = feature.select,batchcorrec = p$batchcorrec,rm.duplicated = rm.duplicated,mrkpen = mrkpen)
+                         customed_markers = customed_markers,batchcorrec = p$batchcorrec,rm.duplicated = rm.duplicated,mrkpen = mrkpen)
       gc()
-      res_all[[i]] = list(a = a, p = p,ensemble = 0)
+      res_all[[i]] = list(a = a, p = p)
       names(res_all)[i] =  paste0(params[i, ], collapse = "_")
       if(!is.null(outpath)){
-        saveRDS(list(a = a, p = p,ensemble = 0), file = paste0(outpath, paste0(params[i, ], collapse = "_"),  ".rds"))
+        saveRDS(list(a = a, p = p), file = paste0(outpath, paste0(params[i, ], collapse = "_"),  ".rds"))
       }
       
     }
 
   }
   if(!is.null(outpath)){
-    saveRDS(res_all,paste0(outpath,"Res",ncv_input,"_list.rds"))
+    saveRDS(res_all,paste0(outpath,"Res_list.rds"))
   }
   
 
