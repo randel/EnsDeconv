@@ -27,6 +27,7 @@
 #'
 #'
 #' @param Marker.Method Method used to choose marker genes
+#' @param dmeths Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.
 #'
 #' \itemize{
 #' \item{'ratio'}{ selects and ranks markers by the ratio of the mean expression of each gene in each cell type to the mean of that gene in all other cell types.}
@@ -48,9 +49,17 @@
 #' @param batchcorrec Logical. Apply batch correction or not. Default: FALSE
 #' @export
 #'
-get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormalization = c("CPM","none","TPM","TMM","QN"), Scale = c("log","linear"), data_type, data_name, n_markers = 50, Marker.Method = c("t","wilcox","combined","none"),pval.type = "all",teqc = TRUE,batchcorrec =FALSE,RB_only = TRUE){
+get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormalization = c("CPM","none","TPM","TMM","QN"), Scale = c("log","linear"), data_type, data_name, n_markers = 50, Marker.Method = c("t","wilcox","combined","none","p.value","regression"),dmeths = NULL,teqc = TRUE,batchcorrec =FALSE,RB_only = TRUE){
+ 
+   if(is.null(dmeths)){
+    if(data_type == "singlecell-rna"){
+      dmeths <- c("dtangle", "hspe","CIBERSORT","EPIC","MuSiC","BisqueRNA","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ")
+    }else{
+      dmeths <- c("dtangle", "hspe","CIBERSORT","EPIC","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ")
+    }
+  }
   norm_params <-  list(TNormalization =TNormalization, CNormalization =CNormalization , data_type = data_type , data_name=data_name, Quantile = 0,
-                     n_markers = n_markers, Marker.Method=Marker.Method ,gamma =1 ,Scale=Scale, all_markers = TRUE)
+                     n_markers = n_markers, Marker.Method=Marker.Method ,gamma =1 ,Scale=Scale, all_markers = TRUE,dmeths = dmeths)
   params <- expand.grid(norm_params, stringsAsFactors = FALSE)
   if(data_type %in% c("singlecell-rna","rna-seq")){
     params<-params[!(params$Scale=="linear" & params$Marker.Method=="t"),]
@@ -63,27 +72,19 @@ get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormali
     params<-params[!(params$CNormalization=="CPM"),]
   }
   if(teqc){
-    params = params %>% dplyr::filter(TNormalization == CNormalization) %>% mutate(pval.type = ifelse(Marker.Method %in% c("t","wilcox","binom","combined"),pval.type,"none")) %>%unique()
+    params = params %>% dplyr::filter(TNormalization == CNormalization) %>%unique()
   }else{
     params = params   %>%unique() %>%
       dplyr::filter(TNormalization != CNormalization & TNormalization !="TMM" &CNormalization !="TMM")
   }
 
-  params$batchcorrec = batchcorrec
+  #params$batchcorrec = batchcorrec
 
   
-  # if(RB_only){
-  #   dmeths_ori <- c("dtangle", "hspe","CIBERSORT","EPIC","MuSiC","BisqueRNA","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ")
-  #   new_norm = params[rep(1:nrow(params),11),]
-  #   new_norm$dmeths = rep(dmeths_ori,each = nrow(params))
-  #   
-  #   new_norm =  new_norm%>% filter(!(Scale == "log" & dmeths %in% c("BisqueRNA","MuSiC","logRegression","linearRegression"))) %>%
-  #     filter(!dmeths %in% c("BisqueRNA","MuSiC")) %>%
-  #     filter(!(Scale == "linear" & dmeths %in% c("dtangle","hspe"))) %>%
-  #     filter(!(Scale == "log" & dmeths %in% c("ICeDT","DSA"))) 
-  #   
-  # }
-  
+  params =  params%>% 
+    filter(!(Scale == "linear" & dmeths %in% c("dtangle","hspe"))) %>%
+    filter(!(Scale == "log" & dmeths %in% c("ICeDT","BisqueRNA","MuSiC"))) %>% 
+    filter(!(TNormalization == "QN" & dmeths == "GEDIT"))
   
   
   return(params)
