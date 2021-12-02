@@ -12,14 +12,10 @@ gen_all_res_list(
   markers_range = NULL,
   true_frac = NULL,
   params = NULL,
-  ncv_input = 2,
   outpath,
   parallel_comp = FALSE,
   ncore,
   os = "win",
-  myseed = 2020,
-  feature.select = FALSE,
-  clustering = TRUE,
   rm.duplicated = FALSE,
   mrkpen = FALSE,
   dmeths = NULL
@@ -57,20 +53,13 @@ gen_all_res_list(
 
 \item{params}{Parameters dataframe for ensemble learning, more details could refer to \code{get_params}.}
 
-\item{ncv_input}{Number of folds.
-(Optional) Default is 2}
-
-\item{outpath}{(Required) Path to save output.}
+\item{outpath}{(Optional) Path to save output.}
 
 \item{parallel_comp}{Logical.}
 
 \item{ncore}{The number of cores to use for parallel execution.}
 
 \item{os}{Operation system. Default is "win". For mac user, please specify as "OS"}
-
-\item{feature.select}{Logical. Perform feature selection by R2 or not. Default : FALSE.}
-
-\item{clustering}{Logical. Apply Kmeans custering on bulk RNA seq data. Default : TRUE.}
 
 \item{rm.duplicated}{Logical. Remove duplicated genes after maker gene selection. Default: FALSE.}
 
