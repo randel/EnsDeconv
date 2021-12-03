@@ -1,32 +1,32 @@
-#' This function is used for process output
-#'
-#' @param  allfold_res List of output from gen_all_res or gen_all_res_list of two fold
-#'
-#' Each element of list is result for one scenario, which contains element \code{a}, \code{p}, and \code{ensemble}.
-#'
-#' \itemize{
-#' \item{'a'}{  Contains p_hat (list, deconvolution results of each fold), p_truth (list, true cell type proportion), n (list, number of markers of each fold), time, markers (list, markers gene of each fold), all_time (computation time)}
-#' \item{'p'}{  Parameters}
-#' \item{'ensemble'}{  Testing data for each fold}
-#' }
-#'
-#' @param  allgene_res List of output from gen_all_res or gen_all_res_list of one fold
-#'
-#' Each element of list is result for one scenario, which contains element \code{a}, \code{p}, and \code{ensemble}.
-#'
-#' \itemize{
-#' \item{'a'}{  Contains p_hat (list of deconvolution results), p_truth (list, true cell type proportion), n (list, number of markers of each fold), time, markers (list, markers gene of each fold), all_time (computation time)}
-#' \item{'p'}{  Parameters}
-#' \item{'ensemble'}{  Testing data for}
-#' }
-#'
-#' @param df_true Dataframe, True cell type expression, samples*cell type
-#' @param trueMet Character, name of bulk data
-#' @param feature_selection Logical, conducting feature selection or not
-#' @param lambda (Optional)  tuning parameter for feature selection
-#' @param get_metric Logical, calculating metric or not
-#' @param rm_dmeths Logical, remove several deconvolution methods or not when ensemble
-#'
+#This function is used for process output
+#
+# param  allfold_res List of output from gen_all_res or gen_all_res_list of two fold
+#
+# Each element of list is result for one scenario, which contains element \code{a}, \code{p}, and \code{ensemble}.
+#
+# \itemize{
+# \item{'a'}{  Contains p_hat (list, deconvolution results of each fold), p_truth (list, true cell type proportion), n (list, number of markers of each fold), time, markers (list, markers gene of each fold), all_time (computation time)}
+# \item{'p'}{  Parameters}
+# \item{'ensemble'}{  Testing data for each fold}
+# }
+#
+# @param  allgene_res List of output from gen_all_res or gen_all_res_list of one fold
+#
+# Each element of list is result for one scenario, which contains element \code{a}, \code{p}, and \code{ensemble}.
+#
+# \itemize{
+# \item{'a'}{  Contains p_hat (list of deconvolution results), p_truth (list, true cell type proportion), n (list, number of markers of each fold), time, markers (list, markers gene of each fold), all_time (computation time)}
+# \item{'p'}{  Parameters}
+# \item{'ensemble'}{  Testing data for}
+# }
+#
+# @param df_true Dataframe, True cell type expression, samples*cell type
+# @param trueMet Character, name of bulk data
+# @param feature_selection Logical, conducting feature selection or not
+# @param lambda (Optional)  tuning parameter for feature selection
+# @param get_metric Logical, calculating metric or not
+#param rm_dmeths Logical, remove several deconvolution methods or not when ensemble
+#
 
 
 process_all <- function(allfold_res,allgene_res,df_true = NULL,trueMet = NULL,feature_selection = TRUE,lambda = NULL,incl_lasso = FALSE,get_metric = TRUE,rm_dmeths = TRUE,r2 = FALSE,r2_ind = NULL,scale = "log",transformation = "CPM",optimization = FALSE){

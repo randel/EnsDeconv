@@ -39,14 +39,16 @@
 #' @export
 
 EnsDeconv <- function(count_bulk,meta_bulk = NULL,ref_list,customed_markers = NULL,markers_range = NULL,true_frac = NULL,params = NULL,
-                        outpath,parallel_comp = FALSE,ncore,os = "win",rm.duplicated =FALSE,mrkpen = FALSE,dmeths = NULL,trueMet){
+                        outpath = NULL,parallel_comp = FALSE,ncore,os = "win",rm.duplicated =FALSE,mrkpen = FALSE,dmeths = NULL,trueMet){
 
 
    allgene_res = gen_all_res_list(count_bulk = as.matrix(count_bulk), meta_bulk = meta_bulk, ref_list = ref_list, true_frac =true_frac, outpath =outpath, ncore =ncore, parallel_comp = parallel_comp, params = params,dmeths = dmeths)
   
   # Check available scenarios
-  ind = sapply(allgene_res, length)
-  allgene_res = allgene_res[which(ind == 3)]
+  ind = sapply(allgene_res, function(x){
+    length(x[["a"]][["p_hat"]][[1]])
+  })
+  allgene_res = allgene_res[which(ind == 1)]
   
   EnsDeconv_p = adaptive_L1(allgene_res)
   
