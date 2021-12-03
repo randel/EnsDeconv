@@ -1,9 +1,9 @@
 Package: EnsDeconv
 Type: Package
-Title: EnsDeconv (Ensemble Deconvolution) which uses ensemble learning to to robustly estimate cellular fractions from bulk omics data.
+Title: (Ensemble Deconvolution) which uses ensemble learning to to robustly estimate cellular fractions from bulk omics data.
 Version: 0.1.1
 Author: Manqi Cai
-Maintainer: The package maintainer <manqi.cai.mk@gmail.com>
+Maintainer: Manqi Cai <manqi.cai.mk@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 Imports: 

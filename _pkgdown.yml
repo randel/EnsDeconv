@@ -1,0 +1,29 @@
+template:
+  params:
+      bootswatch: flatly
+      ganalytics: UA-82807227-1
+      
+navbar:
+  title: "EnsDeconv"
+  left:
+    - text: "Vignettes"
+      href: articles/EnsDeconv.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/randel/EnsDeconv
+
+reference:
+- title: "Deconvolution"
+  desc: "Functions for EnsDeconv Deconvolution"
+- contents:
+  - matches("EnsDeconv")
+
+- title: "Parameters"
+  desc: "Functions for preparing deconvolution parameters"
+- contents:
+  - matches("get_params")
+
