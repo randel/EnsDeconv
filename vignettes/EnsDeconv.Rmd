@@ -57,6 +57,15 @@ if (!"ComICS" %in% rownames(installed.packages())) {
   install.packages("ComICS")
 }
 
+if (!"RVenn" %in% rownames(installed.packages())) {
+  install.packages("RVenn")
+}
+
+if (!"sva" %in% rownames(installed.packages())) {
+  BiocManager::install("sva")
+}
+
+
 
 # install the EnsDeconv package
 if (!"EnsDeconv" %in% rownames(installed.packages())) {
