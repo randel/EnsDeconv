@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Dwonload packages
+# Download packages
 ```{r}
 # install devtools if necessary
 if (!"devtools" %in% rownames(installed.packages())) {
@@ -80,7 +80,7 @@ hspe package can be downloaded [here](https://gjhunt.github.io/hspe/hspe_0.1.tar
 # Sample Code
 Use two reference data, one deconvoluton methods, one normaliztaion, one transformation, one marker gene approach.
 
-The testdata includes two different reference dataset (Nowakowski and Darmanis), and ROS bulk data (n = 10).
+The testdata includes two different reference dataset (Nowakowski and Darmanis), and sample bulk data (n = 10).
 ```{r, message=FALSE}
 library(foreach)
 library(tidyverse)

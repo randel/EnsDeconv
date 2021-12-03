@@ -3,6 +3,8 @@ template:
       bootswatch: flatly
       ganalytics: UA-82807227-1
       
+URL: https://github.com/randel/EnsDeconv, https://randel.github.io/EnsDeconv/
+      
 navbar:
   title: "EnsDeconv"
   left:
