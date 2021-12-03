@@ -47,7 +47,7 @@ deconv_method_switch <- function(method_name, to_deconv, ref_matrix, meta_ref,pu
           }else{
            return(rownames(to_deconv)[x])
           }
-        } ), MarkerList(markers))
+        } ), markers)
         to_deconv <- to_deconv[unlist(markers), ]
         sig_matrix <- sig_matrix[unlist(markers), ]
         ref_matrix <- ref_matrix[unlist(markers), ]
@@ -66,10 +66,6 @@ deconv_method_switch <- function(method_name, to_deconv, ref_matrix, meta_ref,pu
 
 
 
- if(!marker_method %in% c("none","TOAST")){
-  method_name_new <-ifelse(method_name %in% c("dtangle_scRNA","dtangle_GEP","hspe"),"keep",method_name)
-  markers <- switch(method_name_new, keep = markers, MarkerList(markers))
- }
 
   # if(method_name == "dtangle_GEP"){
   #   # pure sample indexes

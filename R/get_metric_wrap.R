@@ -1,9 +1,9 @@
-#' This function is used for generate metric
-#' @param  res_list : list, each element has a, p, and ensemble
-#' @param true : true fraction
-#' @param trueMet : Bulk data name
-#' @param cmap : named cell type
-#' @param cal_mean : logical, calculate mean
+# This function is used for generate metric
+# param  res_list : list, each element has a, p, and ensemble
+# param true : true fraction
+# param trueMet : Bulk data name
+# param cmap : named cell type
+# param cal_mean : logical, calculate mean
 
 get_metric_wrap <- function(res_list,true,trueMet,cal_mean = FALSE){
 

@@ -48,7 +48,6 @@
 #'
 #' @param teqc Logical. Use same normalization between bulk data and reference data. Default: TRUE.
 #' @param batchcorrec Logical. Apply batch correction or not. Default: FALSE
-#' @import dplyr
 #' @return  a data.frame that each row corresponding to specific scenario
 #' @export
 

@@ -7,8 +7,8 @@ Maintainer: The package maintainer <manqi.cai.mk@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 Imports: 
-    CellMix, nnls, dtangle, EPIC, limma, reshape2, TOAST, edgeR, MuSiC, BisqueRNA, SCDC, xbioc, TED, doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
-    stringr, tidyr, progress, doSNOW, Biobase, caret, deconvSeq, e1071, ggpubr, ggridges
+    nnls, dtangle, EPIC, limma, reshape2, TOAST, edgeR, MuSiC, BisqueRNA, hspe,ComICS,xbioc,ICeDT,doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
+    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071,FARDEEP, DeconRNASeq
 Suggests: 
     declassification,
     markerpen,

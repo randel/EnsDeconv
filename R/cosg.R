@@ -9,34 +9,6 @@ select_top_n<-function(scores,n_top){
   return(n_top_indice)
 }
 
-#' Accurate and fast cell marker gene identification with COSG
-#'
-#' Marker gene identification for cell groups in a given dataset.
-#'
-#' @param assay Assay to use in marker gene identification
-#' @param slot Slot to pull data from
-#' @param mu The penalty factor to penalize gene expression in cells not belonging to the cluster of interest
-#' @param n_genes_user Number of top ranked genes returned in the result
-#' @return A list containing two dataframes for ranked marker genes' names and scores, respectively
-#' @examples
-#' suppressMessages(library(Seurat))
-#' data('pbmc_small',package='Seurat')
-#' # Check cell groups:
-#' table(Idents(pbmc_small))
-#' #######
-#' # Run COSG:
-#' marker_cosg <- cosg(
-#'  pbmc_small,
-#'  groups='all',
-#'  assay='RNA',
-#'  slot='data',
-#'  mu=1,
-#'  n_genes_user=100)
-#' #######
-#' # Check the marker genes:
-#'  head(marker_cosg$names)
-#'  head(marker_cosg$scores)
-
 my_cosg<-function(
     object,
     groups='all',

@@ -39,35 +39,25 @@
 #' @importFrom doSNOW registerDoSNOW
 #' @importFrom Biobase exprs
 #' @importFrom limma voom lmFit contrasts.fit eBayes
-#' @importFrom CellMix MarkerList
-#' @importFrom deconvSeq getdge getb0.rnaseq getx1.rnaseq
 #' @importFrom e1071 svm
 #' @importFrom foreach foreach %dopar%
 #' @importFrom Matrix t
 #' @importFrom dtangle dtangle
 #' @importFrom MuSiC music_prop
 #' @importFrom EPIC EPIC
-#' @importFrom CellMix ged
 #' @importFrom xbioc pVar
-#' @importFrom TED run.Ted
 #' @importFrom biomaRt useMart getBM
 #' @importFrom ICeDT ICeDT
 #' @importFrom preprocessCore normalize.quantiles
 #' @importFrom hspe hspe
 #' @importFrom sva ComBat
 #' @importFrom RVenn overlap_pairs Venn
-#' @import FARDEEP
-#' @import ComICS
+#' @importFrom FARDEEP fardeep 
+#' @importFrom ComICS dcq
+#' @importFrom sparseMatrixStats rowVars
 #' @import Seurat
 #' @import effsize
-#' @examples
-#'
-#' data(testdata)
-#'
-#' params  = get_params("none","none","log","singlecell-rna","test_test",20,"p.value")
-#'
-#' gen_all_res_list(count_bulk = testdata$count_bulk,meta_bulk = testdata$meta_bulk,ref_list = testdata$ref_list, true_frac = testdata$true_frac,
-#' outpath ="./tmp/" ,ncore = 12,parallel_comp = TRUE, params = params)
+#' @import glmnet
 #'
 #'
 gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_markers = NULL,markers_range = NULL,true_frac = NULL,params = NULL,
@@ -116,7 +106,7 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
   registerDoSNOW(cl)
   clusterCall(cl, function(x) .libPaths(x), .libPaths())
     res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass',
-                      .packages = c("SCDC","MuSiC","BisqueRNA","TED","TOAST","EPIC", "dtangle","CellMix","nnls","xbioc","Biobase","scran","DeCompress","ICeDT","DeconRNASeq","preprocessCore","glmnet","sva","hspe","RVenn","markerpen","FARDEEP","ComICS","edgeR","BayICE","reticulate","effsize","Seurat","dplyr")) %dopar% {
+                      .packages = c("MuSiC","BisqueRNA","EPIC", "dtangle","nnls","xbioc","Biobase","scran","DeCompress","ICeDT","DeconRNASeq","preprocessCore","glmnet","sva","hspe","RVenn","FARDEEP","ComICS","edgeR","reticulate","effsize","Seurat","dplyr","sparseMatrixStats")) %dopar% {
       
       p = params[i,]
       logdir <- paste0(outpath,p$data_name,"/Analysis/")

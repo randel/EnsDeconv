@@ -7,14 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
-```{r setup}
+
+```{r}
 
 
 # install devtools if necessary
@@ -22,51 +17,77 @@ if (!"devtools" %in% rownames(installed.packages())) {
   install.packages('devtools')
 }
 
-# if (!require("quadprog")) {
-#   install.packages("quadprog", dependencies = TRUE, repos="http://cran.r-project.org")
-# }
-# if (!require("reshape")) {
-#   install.packages("reshape", dependencies = TRUE, repos="http://cran.r-project.org")
-# }
-# if (!require("e1071")) {
-#   install.packages("e1071", dependencies = TRUE, repos="http://cran.r-project.org")
-# }
-# if (!require("Seurat")) {
-#   install.packages("Seurat", dependencies = TRUE, repos="http://cran.r-project.org")
-# }
-# if (!require("ROCR")) {
-#   install.packages("ROCR", dependencies = TRUE, repos="http://cran.r-project.org")
-# }
-# if (!require("varhandle")) {
-#   install.packages("varhandle", dependencies = TRUE, repos="http://cran.r-project.org")
-# }
-# if (!require("MAST")) {
-#   source("https://bioconductor.org/biocLite.R")
-#   biocLite("MAST")
-# }
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+if (!"MuSiC" %in% rownames(installed.packages())) {
+  devtools::install_github("xuranw/MuSiC") 
+}
+
+if (!"BisqueRNA" %in% rownames(installed.packages())) {
+  devtools::install_github("cozygene/bisque")
+}
+
+if (!"EPIC" %in% rownames(installed.packages())) {
+  devtools::install_github("GfellerLab/EPIC", build_vignettes=TRUE)
+}
+
+if (!"DeconRNASeq" %in% rownames(installed.packages())) {
+  BiocManager::install("DeconRNASeq")
+}
+
+if (!"Seurat" %in% rownames(installed.packages())) {
+   install.packages("Seurat", dependencies = TRUE, repos="http://cran.r-project.org")
+}
+
+if (!"dtangle" %in% rownames(installed.packages())) {
+  install.packages("dtangle")
+}
+
+if (!"ICeDT" %in% rownames(installed.packages())) {
+  devtools::install_github("Sun-lab/ICeDT")
+}
+
+if (!"FARDEEP" %in% rownames(installed.packages())) {
+  install.packages("FARDEEP")
+}
+
+# download ComICS for DCQ
+if (!"ComICS" %in% rownames(installed.packages())) {
+  install.packages("ComICS")
+}
+
 
 # install the EnsDeconv package
-#devtools::install_github("randel/EnsDeconv")
+if (!"EnsDeconv" %in% rownames(installed.packages())) {
+  devtools::install_github("randel/EnsDeconv")
+}
 
-library(foreach)
-library(tidyverse)
-library(EnsDeconv)
-data(testdata)
 ```
 
+hspe package can be downloaded [here](https://gjhunt.github.io/hspe/hspe_0.1.tar.gz)
 
 The testdata includes two different reference dataset (Nowakowski and Darmanis), and ROS bulk data (n = 10).
 
 Use two reference data, two deconvoluton methods, one normaliztaion, one transformation, one marker gene approach.
 
+# Sample Code
 ```{r}
+library(foreach)
+library(tidyverse)
+library(EnsDeconv)
+testdata= EnsDeconv::testdata
+
 params = get_params(data_type = "singlecell-rna", data_name = names(testdata$ref_list), n_markers = 50,Marker.Method = "t",TNormalization = "CPM",CNormalization = "CPM",dmeths = c("EPIC","CIBERSORT"))
-#generate all possible combinations
-#params = get_params(data_type = "singlecell-rna", data_name = names(testdata$ref_list))
 
 res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = T, params = params,trueMet = "ROS",outpath = "./tmp/")
+```
 
 
+
+
+
+```{r}
 pheatmap::pheatmap(res[["EnsDeconv"]][["ensemble_p"]],cluster_rows = F,cluster_cols = F)
 ```
 

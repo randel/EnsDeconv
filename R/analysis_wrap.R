@@ -1,13 +1,3 @@
-#' This function is used to get ensemble results
-#'
-#' @param allfold_res all gene deconvolution results
-#' @param allgene_res two folds deconvolution results
-#' @param df_true Optional true cell type fraction
-#' @param trueMet character 
-#' 
-#' @import ggpubr
-#' @import Rsolnp
-#'
 
 get_res_wrap <- function(allfold_res,allgene_res,df_true,trueMet ,feature_selection = FALSE,lambda = NULL,incl_lasso = FALSE,get_metric = TRUE,r2 = FALSE,r2_ind = NULL,scale = "log",transformation = "none",optimization = TRUE){
 
