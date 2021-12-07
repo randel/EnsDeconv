@@ -12,4 +12,4 @@ devtools::install_github("randel/EnsDeconv")
 
 More Information
 -----------------
-Please see [Tutorial](https://github.com/randel/EnsDeconv/blob/main/articles/index.html).
+Please see [Tutorial](https://randel.github.io/EnsDeconv/).
