@@ -8,20 +8,20 @@ Description: (Ensemble Deconvolution) which uses ensemble learning to to robustl
 biocViews:
 Imports: 
     nnls, dtangle, EPIC, limma, reshape2, edgeR, MuSiC, BisqueRNA,ComICS,xbioc,doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
-    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071,FARDEEP, DeconRNASeq, Seurat,effsize,ICeDT,RVenn,sva
+    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071,FARDEEP, DeconRNASeq, Seurat,effsize,ICeDT,RVenn,sva, hspe
 Suggests: 
     declassification,
     testthat,
     knitr,
     rmarkdown,
     ggplot2,
-    hspe
 Remotes: 
     xuranw/MuSiC,
     cozygene/bisque,
     renozao/xbioc,
     Sun-lab/ICeDT,
     GfellerLab/EPIC,
+    url::https://gjhunt.github.io/hspe/hspe_0.1.tar.gz
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
