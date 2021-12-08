@@ -8,24 +8,14 @@ vignette: >
 ---
 
 # Download packages
+
+* hspe package can be downloaded [here](https://gjhunt.github.io/hspe/hspe_0.1.tar.gz)
+
 ```{r}
 # install devtools if necessary
 if (!"devtools" %in% rownames(installed.packages())) {
   install.packages('devtools')
 }
-
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-if (!"DeconRNASeq" %in% rownames(installed.packages())) {
-  BiocManager::install("DeconRNASeq")
-}
-
-if (!"sva" %in% rownames(installed.packages())) {
-  BiocManager::install("sva")
-}
-
-
 
 # install the EnsDeconv package
 if (!"EnsDeconv" %in% rownames(installed.packages())) {
@@ -34,7 +24,6 @@ if (!"EnsDeconv" %in% rownames(installed.packages())) {
 
 ```
 
-hspe package can be downloaded [here](https://gjhunt.github.io/hspe/hspe_0.1.tar.gz)
 
 
 
