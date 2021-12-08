@@ -16,8 +16,9 @@ if (!"devtools" %in% rownames(installed.packages())) {
 }
 
 # install the EnsDeconv package
-devtools::install_github("randel/EnsDeconv",dependencies = T)
-
+if (!"EnsDeconv" %in% rownames(installed.packages())) {
+  devtools::install_github("randel/EnsDeconv",dependencies = T)
+}
 ```
 
 
@@ -33,7 +34,8 @@ The testdata includes two different reference dataset (Nowakowski and Darmanis),
 library(foreach)
 library(tidyverse)
 library(EnsDeconv)
-
+library(sparseMatrixStats)
+library(scran)
 testdata= EnsDeconv::testdata
 
 params = get_params(data_type = "singlecell-rna", data_name = names(testdata$ref_list), n_markers = 50,Marker.Method = "t",TNormalization = "none",CNormalization = "none",dmeths = "CIBERSORT")
