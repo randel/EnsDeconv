@@ -22,7 +22,7 @@ Remotes:
     Sun-lab/ICeDT,
     GfellerLab/EPIC,
     url::https://gjhunt.github.io/hspe/hspe_0.1.tar.gz
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
