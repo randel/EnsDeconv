@@ -408,4 +408,25 @@ S_mode <- function(sig_matrix,mix,meta_ref,ref_matrix,transformation){
 
 
 
-
+get_os <- function(){
+    os_type =.Platform$OS.type
+    if(os_type == "unix"){
+        sysinf <- Sys.info()
+        if (!is.null(sysinf)){
+            os <- sysinf['sysname']
+            if (os == 'Darwin')
+                os <- "osx"
+        } else { ## mystery machine
+            os <- .Platform$OS.type
+            if (grepl("^darwin", R.version$os))
+                os <- "osx"
+            if (grepl("linux-gnu", R.version$os))
+                os <- "linux"
+        }
+        tolower(os)
+    }else{
+        os = os_type
+    }
+    return(os)
+    
+}

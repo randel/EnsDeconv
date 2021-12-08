@@ -37,26 +37,11 @@ if (!"Seurat" %in% rownames(installed.packages())) {
    install.packages("Seurat", dependencies = TRUE, repos="http://cran.r-project.org")
 }
 
-if (!"dtangle" %in% rownames(installed.packages())) {
-  install.packages("dtangle")
-}
 
 if (!"ICeDT" %in% rownames(installed.packages())) {
   devtools::install_github("Sun-lab/ICeDT")
 }
 
-if (!"FARDEEP" %in% rownames(installed.packages())) {
-  install.packages("FARDEEP")
-}
-
-# download ComICS for DCQ
-if (!"ComICS" %in% rownames(installed.packages())) {
-  install.packages("ComICS")
-}
-
-if (!"RVenn" %in% rownames(installed.packages())) {
-  install.packages("RVenn")
-}
 
 if (!"sva" %in% rownames(installed.packages())) {
   BiocManager::install("sva")
@@ -66,7 +51,7 @@ if (!"sva" %in% rownames(installed.packages())) {
 
 # install the EnsDeconv package
 if (!"EnsDeconv" %in% rownames(installed.packages())) {
-  devtools::install_github("randel/EnsDeconv")
+  devtools::install_github("randel/EnsDeconv",dependencies = T)
 }
 
 ```

@@ -30,7 +30,6 @@
 #' (Optional) Only input when you want default params. Character in format "Bulk data name-reference data name"
 #' @param parallel_comp Logical.
 #' @param  ncore 	The number of cores to use for parallel execution.
-#' @param os Operation system. Default is "win". For mac user, please specify as "OS"
 #' @param rm.duplicated Logical. Remove duplicated genes after maker gene selection. Default: FALSE.
 #' @param mrkpen Logical. Apply markerpen on marker gene list. Default: FALSE.
 #'
@@ -61,7 +60,7 @@
 #'
 #'
 gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_markers = NULL,markers_range = NULL,true_frac = NULL,params = NULL,
-                            outpath = NULL,parallel_comp = FALSE,ncore,os = "win",rm.duplicated =FALSE,mrkpen = FALSE,dmeths = NULL){
+                            outpath = NULL,parallel_comp = FALSE,ncore,rm.duplicated =FALSE,mrkpen = FALSE,dmeths = NULL){
 
   if(!is.null(outpath)){
     dir.create(outpath,showWarnings = F)
@@ -96,8 +95,9 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
 
 
     opts <- list(progress = progress)
-
-    if(os == "win"){
+    
+    os = get_os()
+    if(os == "windows"){
       cl = makeCluster(ncore, outfile="")
     }else{
       cl = makeCluster(ncore, setup_strategy = "sequential")

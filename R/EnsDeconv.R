@@ -30,7 +30,6 @@
 #' (Optional) Only input when you want default params. Character in format "Bulk data name-reference data name"
 #' @param parallel_comp Logical.
 #' @param  ncore 	The number of cores to use for parallel execution.
-#' @param os Operation system. Default is "win". For mac user, please specify as "OS"
 #' @param rm.duplicated Logical. Remove duplicated genes after maker gene selection. Default: FALSE.
 #' @param mrkpen Logical. Apply markerpen on marker gene list. Default: FALSE.
 #' 
@@ -39,7 +38,7 @@
 #' @export
 
 EnsDeconv <- function(count_bulk,meta_bulk = NULL,ref_list,customed_markers = NULL,markers_range = NULL,true_frac = NULL,params = NULL,
-                        outpath = NULL,parallel_comp = FALSE,ncore,os = "win",rm.duplicated =FALSE,mrkpen = FALSE,dmeths = NULL,trueMet){
+                        outpath = NULL,parallel_comp = FALSE,ncore,rm.duplicated =FALSE,mrkpen = FALSE,dmeths = NULL,trueMet){
 
 
    allgene_res = gen_all_res_list(count_bulk = as.matrix(count_bulk), meta_bulk = meta_bulk, ref_list = ref_list, true_frac =true_frac, outpath =outpath, ncore =ncore, parallel_comp = parallel_comp, params = params,dmeths = dmeths)
