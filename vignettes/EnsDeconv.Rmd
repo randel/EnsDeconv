@@ -17,35 +17,9 @@ if (!"devtools" %in% rownames(installed.packages())) {
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-if (!"MuSiC" %in% rownames(installed.packages())) {
-  devtools::install_github("xuranw/MuSiC") 
-}
-
-if (!"BisqueRNA" %in% rownames(installed.packages())) {
-  devtools::install_github("cozygene/bisque")
-}
-
-if (!"EPIC" %in% rownames(installed.packages())) {
-  devtools::install_github("GfellerLab/EPIC", build_vignettes=TRUE)
-}
-
 if (!"DeconRNASeq" %in% rownames(installed.packages())) {
   BiocManager::install("DeconRNASeq")
 }
-
-if (!"Seurat" %in% rownames(installed.packages())) {
-   install.packages("Seurat", dependencies = TRUE, repos="http://cran.r-project.org")
-}
-
-
-if (!"ICeDT" %in% rownames(installed.packages())) {
-  devtools::install_github("Sun-lab/ICeDT")
-}
-
-if (!"xbioc" %in% rownames(installed.packages())) {
-  devtools::install_github("renozao/xbioc")
-}
-
 
 if (!"sva" %in% rownames(installed.packages())) {
   BiocManager::install("sva")

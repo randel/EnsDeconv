@@ -7,7 +7,7 @@ Maintainer: Manqi Cai <manqi.cai.mk@gmail.com>
 Description: (Ensemble Deconvolution) which uses ensemble learning to to robustly estimate cellular fractions from bulk omics data.
 Imports: 
     nnls, dtangle, EPIC, limma, reshape2, edgeR, MuSiC, BisqueRNA,ComICS,xbioc,doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
-    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071,FARDEEP, DeconRNASeq, Seurat,effsize,ICeDT
+    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071,FARDEEP, DeconRNASeq, Seurat,effsize,ICeDT,RVenn
 Suggests: 
     declassification,
     testthat,
