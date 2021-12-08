@@ -42,6 +42,10 @@ if (!"ICeDT" %in% rownames(installed.packages())) {
   devtools::install_github("Sun-lab/ICeDT")
 }
 
+if (!"xbioc" %in% rownames(installed.packages())) {
+  devtools::install_github("renozao/xbioc")
+}
+
 
 if (!"sva" %in% rownames(installed.packages())) {
   BiocManager::install("sva")
