@@ -36,14 +36,14 @@ library(tidyverse)
 library(EnsDeconv)
 library(sparseMatrixStats)
 library(scran)
-testdata= EnsDeconv::testdata
+data(testdata)
 
 params = get_params(data_type = "singlecell-rna", data_name = names(testdata$ref_list), n_markers = 50,Marker.Method = "t",TNormalization = "none",CNormalization = "none",dmeths = "CIBERSORT")
 
-res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = F, params = params,trueMet = "ROS")
+res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = F, params = params,)
 
 #Use parallel computing
-#res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = T, params = params,trueMet = "ROS",outpath= '...')
+#res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = T, params = params,outpath= '...')
 ```
 
 

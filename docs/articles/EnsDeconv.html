@@ -88,10 +88,6 @@
 <div class="section level1">
 <h1 id="download-packages">Download packages<a class="anchor" aria-label="anchor" href="#download-packages"></a>
 </h1>
-<ul>
-<li>hspe package can be downloaded <a href="https://gjhunt.github.io/hspe/hspe_0.1.tar.gz" class="external-link">here</a>
-</li>
-</ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install devtools if necessary</span>
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="st">"devtools"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
@@ -114,14 +110,14 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">EnsDeconv</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/const-ae/sparseMatrixStats" class="external-link">sparseMatrixStats</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">scran</span><span class="op">)</span>
-<span class="va">testdata</span><span class="op">=</span> <span class="fu">EnsDeconv</span><span class="fu">::</span><span class="va">testdata</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">testdata</span><span class="op">)</span>
 
 <span class="va">params</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_params.html">get_params</a></span><span class="op">(</span>data_type <span class="op">=</span> <span class="st">"singlecell-rna"</span>, data_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">testdata</span><span class="op">$</span><span class="va">ref_list</span><span class="op">)</span>, n_markers <span class="op">=</span> <span class="fl">50</span>,Marker.Method <span class="op">=</span> <span class="st">"t"</span>,TNormalization <span class="op">=</span> <span class="st">"none"</span>,CNormalization <span class="op">=</span> <span class="st">"none"</span>,dmeths <span class="op">=</span> <span class="st">"CIBERSORT"</span><span class="op">)</span>
 
-<span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="../reference/EnsDeconv.html">EnsDeconv</a></span><span class="op">(</span>count_bulk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">testdata</span><span class="op">$</span><span class="va">count_bulk</span><span class="op">)</span>, ref_list <span class="op">=</span> <span class="va">testdata</span><span class="op">$</span><span class="va">ref_list</span>, ncore <span class="op">=</span> <span class="fl">4</span>, parallel_comp <span class="op">=</span> <span class="cn">F</span>, params <span class="op">=</span> <span class="va">params</span>,trueMet <span class="op">=</span> <span class="st">"ROS"</span><span class="op">)</span>
+<span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="../reference/EnsDeconv.html">EnsDeconv</a></span><span class="op">(</span>count_bulk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">testdata</span><span class="op">$</span><span class="va">count_bulk</span><span class="op">)</span>, ref_list <span class="op">=</span> <span class="va">testdata</span><span class="op">$</span><span class="va">ref_list</span>, ncore <span class="op">=</span> <span class="fl">4</span>, parallel_comp <span class="op">=</span> <span class="cn">F</span>, params <span class="op">=</span> <span class="va">params</span>,<span class="op">)</span>
 
 <span class="co">#Use parallel computing</span>
-<span class="co">#res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = T, params = params,trueMet = "ROS",outpath= '...')</span></code></pre></div>
+<span class="co">#res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = T, params = params,outpath= '...')</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"EnsDeconv"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"ensemble_p"</span><span class="op">]</span><span class="op">]</span>,cluster_rows <span class="op">=</span> <span class="cn">F</span>,cluster_cols <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p><img src="EnsDeconv_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
@@ -140,7 +136,7 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Manqi Cai.</p>
+<p>Developed by Manqi Cai, Jiebiao Wang, Wei Chen.</p>
 </div>
 
 <div class="pkgdown">

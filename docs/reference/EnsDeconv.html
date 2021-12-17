@@ -64,72 +64,57 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">EnsDeconv</span><span class="op">(</span>
   <span class="va">count_bulk</span>,
-  meta_bulk <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">ref_list</span>,
   customed_markers <span class="op">=</span> <span class="cn">NULL</span>,
-  markers_range <span class="op">=</span> <span class="cn">NULL</span>,
   true_frac <span class="op">=</span> <span class="cn">NULL</span>,
   params <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">outpath</span>,
+  outpath <span class="op">=</span> <span class="cn">NULL</span>,
   parallel_comp <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">ncore</span>,
-  os <span class="op">=</span> <span class="st">"win"</span>,
   rm.duplicated <span class="op">=</span> <span class="cn">FALSE</span>,
   mrkpen <span class="op">=</span> <span class="cn">FALSE</span>,
-  dmeths <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">trueMet</span>
+  markers_range <span class="op">=</span> <span class="cn">NULL</span>,
+  dmeths <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>count_bulk</dt>
-<dd><p>Bulk gene expression.
-(Required)  Two-dimensional numeric. Must be in gene x sample format. Must implemented <code>as.matrix</code>
+<dd><p>Bulk gene expression.</p>
+<p>(Required)  Two-dimensional numeric. Must be in gene x sample format. Must implemented <code>as.matrix</code>.
 (Optional) In original scale.</p></dd>
-<dt>meta_bulk</dt>
-<dd><p>Meta data for bulk gene expression.
-(Optional) Dataframe, much include character variable SamplesName.
-(Required) If reference data is single cell rna seq.</p></dd>
 <dt>ref_list</dt>
 <dd><p>List of of list. Must implement as.list.</p>
-
 <p>(Required) The i-th element of the top-level list is a list of <code>ref_matrix</code>, <code>meta_ref</code>. Names of the top level list should be vector of
 <code>data_name</code>, namely : bulk-reference.</p>
-<ul><li><p>'ref_matrix' Reference matrix.</p></li>
-<li><p>'meta_ref' Meta data for reference matrix..</p></li>
-<li><p>'data_name'Data description. Character in format "Bulk data name_reference data name"</p></li>
+<ul><li><p>'ref_matrix' Reference matrix, rows are genes, columns are samples.</p></li>
+<li><p>'meta_ref' Meta data for reference data. Must include two variables: "SamplesName" (column names of ref_matrix), "deconv_clust" (deconvolution cluster, eg. cell types).</p></li>
+<li><p>'data_name'Data description. Character in format "bulk data name_reference data name"</p></li>
 </ul></dd>
 <dt>customed_markers</dt>
-<dd><p>Self-defined markers.
-(Optional) List of one-dimensional string Names of the list should match the deconv_clust.</p></dd>
-<dt>markers_range</dt>
-<dd><p>Specific for markerpen.
-(Optional)</p></dd>
+<dd><p>(Optional) Self-defined markers.</p></dd>
 <dt>true_frac</dt>
-<dd><p>True cell type proportions for bulk gene expresseeion.
-(Optional) Two-dimensional numeric. Must be in samples by celltype.</p></dd>
+<dd><p>(Optional) True cell type proportions for bulk gene expression
+Two-dimensional numeric. Must be in samples by cell type.</p></dd>
 <dt>params</dt>
-<dd><p>Parameters dataframe for ensemble learning, more details could refer to <code>get_params</code>.</p></dd>
+<dd><p>Parameters Dataframe for ensemble learning, more details could refer to <code>get_params</code>.</p></dd>
 <dt>outpath</dt>
 <dd><p>(Optional) Path to save output.</p></dd>
 <dt>parallel_comp</dt>
-<dd><p>Logical.</p></dd>
+<dd><p>Logical. Use parallel computing or not. Default: FALSE.</p></dd>
 <dt>ncore</dt>
 <dd><p>The number of cores to use for parallel execution.</p></dd>
-<dt>os</dt>
-<dd><p>Operation system. Default is "win". For mac user, please specify as "OS"</p></dd>
 <dt>rm.duplicated</dt>
 <dd><p>Logical. Remove duplicated genes after maker gene selection. Default: FALSE.</p></dd>
 <dt>mrkpen</dt>
 <dd><p>Logical. Apply markerpen on marker gene list. Default: FALSE.</p></dd>
-<dt>data_name</dt>
-<dd><p>Data description.
-(Optional) Only input when you want default params. Character in format "Bulk data name-reference data name"</p></dd>
+<dt>markers_range</dt>
+<dd><p>(Optional) Specific for markerpen.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list containing the output of the EnsDeconv algorithm and output from each scenarios</p>
+    <p>A list containing the output of the EnsDeconv algorithm (EnsDeconv) and a list output from each scenario (allgene_res).</p>
     </div>
 
   </div>

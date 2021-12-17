@@ -4,6 +4,12 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>/LICENSE.html</loc>
+  </url>
+  <url>
     <loc>/articles/EnsDeconv.html</loc>
   </url>
   <url>
@@ -32,5 +38,8 @@
   </url>
   <url>
     <loc>/reference/process_all.html</loc>
+  </url>
+  <url>
+    <loc>/reference/testdata.html</loc>
   </url>
 </urlset>

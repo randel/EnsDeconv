@@ -70,10 +70,9 @@
   markers_range <span class="op">=</span> <span class="cn">NULL</span>,
   true_frac <span class="op">=</span> <span class="cn">NULL</span>,
   params <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">outpath</span>,
+  outpath <span class="op">=</span> <span class="cn">NULL</span>,
   parallel_comp <span class="op">=</span> <span class="cn">FALSE</span>,
   <span class="va">ncore</span>,
-  os <span class="op">=</span> <span class="st">"win"</span>,
   rm.duplicated <span class="op">=</span> <span class="cn">FALSE</span>,
   mrkpen <span class="op">=</span> <span class="cn">FALSE</span>,
   dmeths <span class="op">=</span> <span class="cn">NULL</span>
@@ -116,8 +115,6 @@
 <dd><p>Logical.</p></dd>
 <dt>ncore</dt>
 <dd><p>The number of cores to use for parallel execution.</p></dd>
-<dt>os</dt>
-<dd><p>Operation system. Default is "win". For mac user, please specify as "OS"</p></dd>
 <dt>rm.duplicated</dt>
 <dd><p>Logical. Remove duplicated genes after maker gene selection. Default: FALSE.</p></dd>
 <dt>mrkpen</dt>

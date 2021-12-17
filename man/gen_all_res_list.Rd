@@ -12,10 +12,9 @@ gen_all_res_list(
   markers_range = NULL,
   true_frac = NULL,
   params = NULL,
-  outpath,
+  outpath = NULL,
   parallel_comp = FALSE,
   ncore,
-  os = "win",
   rm.duplicated = FALSE,
   mrkpen = FALSE,
   dmeths = NULL
@@ -58,8 +57,6 @@ gen_all_res_list(
 \item{parallel_comp}{Logical.}
 
 \item{ncore}{The number of cores to use for parallel execution.}
-
-\item{os}{Operation system. Default is "win". For mac user, please specify as "OS"}
 
 \item{rm.duplicated}{Logical. Remove duplicated genes after maker gene selection. Default: FALSE.}
 
