@@ -90,15 +90,15 @@ get_input_ensemble <- function(count_bulk, ref_matrix, meta_bulk, meta_ref, true
 
 
 
-    if(params$data_type %in% c("singlecell-rna","rna-seq")){
-        tmp_count_bulk <- Normalization(tmp_count_bulk,"TPM")
-        count_bulk <- count_bulk[rownames(tmp_count_bulk),]
-        gene <- intersect(rownames(ref_matrix), rownames(count_bulk))
-
-        count_bulk <- count_bulk[gene,]
-        ref_matrix <- ref_matrix[pmatch(gene,rownames(ref_matrix)),]
-        tmp_count_bulk <- tmp_count_bulk[gene,]
-        }
+    # if(params$data_type %in% c("singlecell-rna","rna-seq")){
+    #     tmp_count_bulk <- Normalization(tmp_count_bulk,"TPM")
+    #     count_bulk <- count_bulk[rownames(tmp_count_bulk),]
+    #     gene <- intersect(rownames(ref_matrix), rownames(count_bulk))
+    # 
+    #     count_bulk <- count_bulk[gene,]
+    #     ref_matrix <- ref_matrix[pmatch(gene,rownames(ref_matrix)),]
+    #     tmp_count_bulk <- tmp_count_bulk[gene,]
+    #     }
 
     # Scaling
     if(params$Scale == "log"){
