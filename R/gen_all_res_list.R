@@ -55,6 +55,7 @@
 #' @import Seurat
 #' @import effsize
 #' @import glmnet
+#' @import reticulate
 #'
 #'
 gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_markers = NULL,markers_range = NULL,true_frac = NULL,params = NULL,
