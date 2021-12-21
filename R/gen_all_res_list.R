@@ -44,7 +44,6 @@
 #' @importFrom MuSiC music_prop
 #' @importFrom EPIC EPIC
 #' @importFrom xbioc pVar
-#' @importFrom biomaRt useMart getBM
 #' @importFrom ICeDT ICeDT
 #' @importFrom preprocessCore normalize.quantiles
 #' @importFrom hspe hspe
