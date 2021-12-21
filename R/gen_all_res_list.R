@@ -37,7 +37,6 @@
 #' @importFrom progress progress_bar
 #' @importFrom doSNOW registerDoSNOW
 #' @importFrom Biobase exprs
-#' @importFrom limma voom lmFit contrasts.fit eBayes
 #' @importFrom e1071 svm
 #' @importFrom foreach foreach %dopar%
 #' @importFrom Matrix t
