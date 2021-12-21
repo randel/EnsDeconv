@@ -52,8 +52,8 @@
 #' @importFrom FARDEEP fardeep 
 #' @importFrom ComICS dcq
 #' @importFrom sparseMatrixStats rowVars
-#' @import Seurat
-#' @import effsize
+#' @importFrom  Seurat FindAllMarkers CreateSeuratObject
+#' @importFrom scran findMarkers
 #' @import glmnet
 #' @import reticulate
 #'
