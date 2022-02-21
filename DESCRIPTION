@@ -3,7 +3,7 @@ Type: Package
 Title: (Ensemble Deconvolution) which uses ensemble learning to to robustly estimate cellular fractions from bulk omics data.
 Version: 0.1.1
 Authors@R: as.person(c( 
-    "Manqi Cai <manqi.cai.mk@gmail.com> [aut, cre]")
+    "Manqi Cai <manqi.cai.mk@gmail.com> [aut, cre]"))
 Maintainer: Manqi Cai <manqi.cai.mk@gmail.com>
 Description: (Ensemble Deconvolution) which uses ensemble learning to to robustly estimate cellular fractions from bulk omics data.
 biocViews:
