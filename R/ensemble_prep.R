@@ -88,18 +88,6 @@ get_input_ensemble <- function(count_bulk, ref_matrix, meta_bulk, meta_ref, true
         ref_matrix <- Normalization(ref_matrix,params$CNormalization)
     }
 
-
-
-    # if(params$data_type %in% c("singlecell-rna","rna-seq")){
-    #     tmp_count_bulk <- Normalization(tmp_count_bulk,"TPM")
-    #     count_bulk <- count_bulk[rownames(tmp_count_bulk),]
-    #     gene <- intersect(rownames(ref_matrix), rownames(count_bulk))
-    # 
-    #     count_bulk <- count_bulk[gene,]
-    #     ref_matrix <- ref_matrix[pmatch(gene,rownames(ref_matrix)),]
-    #     tmp_count_bulk <- tmp_count_bulk[gene,]
-    #     }
-
     # Scaling
     if(params$Scale == "log"){
         count_bulk = log2(count_bulk+1)
@@ -197,89 +185,6 @@ get_set_basis <- function(count_bulk = count_bulk,ref_matrix = ref_matrix,meta_b
     return(data_set)
 }
 
-############## cv_set ############
-# Create cross validation dataset
-# cv_set <- function(x,count_bulk = count_bulk,ref_matrix = ref_matrix,meta_bulk = meta_bulk,meta_ref = meta_ref,params = params,true_frac = true_frac){
-# 
-#     data_type <- params$data_type
-# 
-#     picked <-rownames(count_bulk)[x]
-#     test_bulk <-count_bulk[pmatch(picked,rownames(count_bulk)),]
-#     train_bulk <-count_bulk[-pmatch(picked,rownames(count_bulk)),]
-# 
-#     train_ref <- ref_matrix[-pmatch(picked,rownames(ref_matrix)),]
-# 
-#     data_set <- list()
-# 
-#     if(data_type == "singlecell-rna"){
-#         data_set$data$data_c <- train_ref
-#         data_set$data$meta_ref <- meta_ref
-#         data_set$data$data_t <- train_bulk
-# 
-#         cell_type <- sort(unique(meta_ref$deconv_clust))
-#         K <- length(cell_type)
-#         data_set$annotation$pure <- t(sapply(meta_ref$deconv_clust, function(x) cell_type == x))
-#         rownames(data_set$annotation$pure) <- rownames(meta_ref)
-#         colnames(data_set$annotation$pure) <- cell_type
-#         data_set$annotation$pure_samples <- lapply(1:K, function(x){which(data_set$annotation$pure[,x])})
-#         names(data_set$annotation$pure_samples) <- cell_type
-#         data_set$annotation$prep <-FALSE
-#         if(is.null(true_frac)) true_frac <- matrix(NA, nrow = nrow(meta_bulk), ncol = K) else true_frac = true_frac[,cell_type]
-#         data_set$annotation$mixture <- rbind(1*(data_set$annotation$pure), true_frac)
-# 
-#         data_set$annotation$data_type <- params$data_type
-#         data_set$name <- params$data_name
-# 
-#         data_set$notes <- params
-# 
-#         data_set$ensemble$test_bulk <- test_bulk
-# 
-# 
-#     }else{
-# 
-#         data_set$data$data_t <- train_bulk
-# 
-#         data_set$data$data_c <-train_ref
-# 
-#         data_set$data$meta_ref <- meta_ref
-# 
-# 
-#         if(is.null(meta_ref)){
-#             cell_type <- colnames(ref_matrix)
-#             K <- length(cell_type)
-#             data_set$annotation$pure <- t(sapply(colnames(ref_matrix), function(x) cell_type == x))
-#             rownames(data_set$annotation$pure) <- colnames(ref_matrix)
-#         }else{
-#             cell_type <- sort(unique(meta_ref$deconv_clust))
-#             K <- length(cell_type)
-#             data_set$annotation$pure <- t(sapply(meta_ref$deconv_clust, function(x) cell_type == x))
-#             rownames(data_set$annotation$pure) <- rownames(meta_ref)
-#         }
-# 
-#         colnames(data_set$annotation$pure) <- cell_type
-# 
-#         data_set$annotation$pure_samples <- lapply(1:K, function(x){which(data_set$annotation$pure[,x])})
-#         names(data_set$annotation$pure_samples) <- cell_type
-# 
-#         data_set$annotation$prep <-FALSE
-# 
-#         if(is.null(true_frac)) true_frac <- matrix(NA, nrow = ncol(count_bulk), ncol = K) else true_frac = true_frac[,cell_type]
-# 
-#         data_set$annotation$mixture <- rbind(1*(data_set$annotation$pure), true_frac)
-# 
-#         data_set$annotation$data_type <- params$data_type
-# 
-#         data_set$name <- params$data_name
-# 
-# 
-#         data_set$notes <- params
-# 
-#         data_set$ensemble$test_bulk <- test_bulk
-# 
-#     }
-# 
-#     return(data_set)
-# }
 
 ######## tpmnorm ###########
 tpmnorm <- function(counts,len) {
@@ -336,76 +241,6 @@ filterzerovar <- function(mat){
     }
     return(mat)
 }
-
-
-########### Batch Correction #########
-########### B mode ###########
-B_mode <- function(mix, ref,scale,phat){
-    if(scale == "linear"){
-        gene <- intersect(rownames(mix),rownames(ref))
-        mix <- mix[gene,]
-        ref <- ref[gene,]
-        K <- ncol(ref)
-
-        mstar <- ref %*% t(phat)
-        lmstar <- log2(mstar+1)
-        lmix <- log2(mix+1)
-
-        data <- cbind(lmix,lmstar)
-        batch <- c(rep(1,ncol(lmstar)),rep(2,ncol(lmstar)))
-        combat_edata1 <- ComBat(dat=data, batch=batch)
-
-        cmix <- 2^(combat_edata1[,1:ncol(lmix)])-1
-    }else{
-        gene <- intersect(rownames(mix),rownames(ref))
-        mix <- mix[gene,]
-        ref <- ref[gene,]
-        K <- ncol(ref)
-        mstar <- ref %*% t(phat)
-
-        data <- cbind(mix,mstar)
-        batch <- c(rep(1,ncol(mstar)),rep(2,ncol(mstar)))
-        combat_edata1 <- ComBat(dat=data, batch=batch)
-
-        cmix <- combat_edata1[,1:ncol(mix)]
-    }
-
-
-    return(cmix)
-}
-
-
-########### S mode ###########
-S_mode <- function(sig_matrix,mix,meta_ref,ref_matrix,transformation){
-    ref_matrix <- as.matrix(ref_matrix[rownames(sig_matrix),])
-    ct <- unique(meta_ref$deconv_clust)
-    c <- length(ct)
-    mu <- table(meta_ref$deconv_clust)/length(meta_ref$deconv_clust)
-    #F_mtx = matrix(0,nrow = ncol(mix),ncol = c)
-    set.seed(2021)
-    F_star <- sapply(1:c, function(x) rnorm(ncol(mix),mean = mu[x],sd = 2*mu[x]))
-    F_star[F_star<0] =0
-    F_star <- F_star/rowSums(F_star)
-
-    if(transformation == "TPM"){
-        tmp <- matrix(0,nrow = nrow(ref_matrix),ncol = c)
-        res <- matrix(0,nrow = nrow(ref_matrix),ncol = ncol(mix))
-        for (j in 1:ncol(mix)) {
-            for (i in 1:c) {
-                tmp[,i] = colSums(sample_frac(as.data.frame(t(ref_matrix[,which(meta_ref$deconv_clust == ct[i])])),F_star[j,i]))
-            }
-            res[,j] = rowSums(tmp)
-
-        }
-
-    }
-
-    data = cbind(lmix,lmstar)
-    batch = c(rep(1,ncol(lmstar)),rep(2,ncol(lmstar)))
-    combat_edata1 = ComBat(dat=data, batch=batch)
-
-}
-
 
 
 get_os <- function(){
