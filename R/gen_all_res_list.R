@@ -146,7 +146,6 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
     for(i in 1:nrow(params)){
 
       p = params[i,]
-      require(SCDC)
       Dataset = get_input_ensemble(count_bulk = count_bulk, ref_matrix = ref_list[[p$data_name]]$ref_matrix, meta_bulk = meta_bulk,
                                    meta_ref = ref_list[[p$data_name]]$meta_ref, true_frac = true_frac,params = p)
 
