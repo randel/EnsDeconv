@@ -64,8 +64,8 @@ get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormali
                      n_markers = n_markers, Marker.Method=Marker.Method ,gamma =1 ,Scale=Scale, all_markers = TRUE,dmeths = dmeths)
   params <- expand.grid(norm_params, stringsAsFactors = FALSE)
   if(data_type %in% c("singlecell-rna","rna-seq")){
-    params<-params[!(params$Scale=="linear" & params$Marker.Method=="t"),]
-    params<-params[!(params$Scale=="log" & params$Marker.Method=="none"),]
+    # params<-params[!(params$Scale=="linear" & params$Marker.Method=="t"),]
+    # params<-params[!(params$Scale=="log" & params$Marker.Method=="none"),]
     params<-params[!(params$CNormalization=="CPM" & params$Marker.Method=="none"),]
     params<-params[!(params$CNormalization=="TPM" & params$Marker.Method=="none"),]
     params<-params[!(params$CNormalization=="QN"),]
