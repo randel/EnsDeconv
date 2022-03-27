@@ -102,7 +102,7 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
   registerDoSNOW(cl)
   clusterCall(cl, function(x) .libPaths(x), .libPaths())
     res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass',
-                      .packages = c("MuSiC","BisqueRNA","EPIC", "dtangle","nnls","xbioc","Biobase","scran","DeCompress","ICeDT","DeconRNASeq","preprocessCore","glmnet","sva","hspe","RVenn","FARDEEP","ComICS","edgeR","reticulate","effsize","Seurat","dplyr","sparseMatrixStats")) %dopar% {
+                      .packages = c("MuSiC","BisqueRNA","EPIC", "dtangle","nnls","xbioc","Biobase","scran","ICeDT","DeconRNASeq","preprocessCore","glmnet","sva","hspe","RVenn","FARDEEP","ComICS","edgeR","reticulate","effsize","Seurat","dplyr","sparseMatrixStats")) %dopar% {
       
       p = params[i,]
       logdir <- paste0(outpath,p$data_name,"/Analysis/")
