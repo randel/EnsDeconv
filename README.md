@@ -1,9 +1,9 @@
 # EnsDeconv
-EnsDeconv (Ensemble Deconvolution) which uses ensemble learning to to robustly estimate cellular fractions from bulk omics data.
+EnsDeconv (Ensemble Deconvolution) which uses ensemble learning to robustly estimate cellular fractions from bulk omics data.
 
 ## Installation
 ```
-devtools::install_github("randel/EnsDeconv",dependencies = T)
+devtools::install_github("randel/EnsDeconv", dependencies = T)
 ```
 
 ## Workflow
