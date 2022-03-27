@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Download packages
+# Install packages
 
 ```{r}
 # install devtools if necessary
@@ -17,7 +17,7 @@ if (!"devtools" %in% rownames(installed.packages())) {
 
 # install the EnsDeconv package
 if (!"EnsDeconv" %in% rownames(installed.packages())) {
-  devtools::install_github("randel/EnsDeconv",dependencies = T)
+  devtools::install_github("randel/EnsDeconv", dependencies = T)
 }
 ```
 
@@ -38,16 +38,16 @@ library(sparseMatrixStats)
 library(scran)
 data(testdata)
 
-params = get_params(data_type = "singlecell-rna", data_name = names(testdata$ref_list), n_markers = 50,Marker.Method = "t",TNormalization = "none",CNormalization = "none",dmeths = "CIBERSORT")
+params = get_params(data_type = "singlecell-rna", data_name = names(testdata$ref_list), n_markers = 50, Marker.Method = "t", TNormalization = "none", CNormalization = "none", dmeths = "CIBERSORT")
 
-res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = F, params = params)
+res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, params = params)
 
-#Use parallel computing
-#res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = T, params = params,outpath= '...')
+# Use parallel computing
+# res = EnsDeconv(count_bulk = as.matrix(testdata$count_bulk), ref_list = testdata$ref_list, ncore = 4, parallel_comp = T, params = params, outpath= '...')
 ```
 
 
 ```{r}
-pheatmap::pheatmap(res[["EnsDeconv"]][["ensemble_p"]],cluster_rows = F,cluster_cols = F)
+pheatmap::pheatmap(res[["EnsDeconv"]][["ensemble_p"]],cluster_rows = F, cluster_cols = F)
 ```
 
