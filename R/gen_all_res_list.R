@@ -3,9 +3,6 @@
 #' @param count_bulk Bulk gene expression.
 #' (Required)  Two-dimensional numeric. Must be in gene x sample format. Must implemented \code{as.matrix}
 #' (Optional) In original scale.
-#' @param meta_bulk Meta data for bulk gene expression.
-#' (Optional) Dataframe, much include character variable SamplesName.
-#' (Required) If reference data is single cell rna seq.
 #' @param ref_list List of of list. Must implement as.list.
 #'
 #'
