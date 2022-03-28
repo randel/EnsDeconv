@@ -53,7 +53,7 @@
 #' @importFrom scran findMarkers
 #' @import glmnet
 #' @import reticulate
-#'
+#' @export
 #'
 gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_markers = NULL,markers_range = NULL,true_frac = NULL,params = NULL,
                             outpath = NULL,parallel_comp = FALSE,ncore,rm.duplicated =FALSE,mrkpen = FALSE,dmeths = NULL){
@@ -102,7 +102,7 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
   registerDoSNOW(cl)
   clusterCall(cl, function(x) .libPaths(x), .libPaths())
     res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass',
-                      .packages = c("nnls","xbioc","Biobase","scran","DeconRNASeq","preprocessCore","glmnet","sva","RVenn","edgeR","reticulate","Seurat","dplyr","sparseMatrixStats")) %dopar% {
+                      .packages = c("nnls","xbioc","Biobase","scran","preprocessCore","glmnet","sva","RVenn","edgeR","Seurat","dplyr","sparseMatrixStats")) %dopar% {
   #res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass') %dopar% {                   
       
       p = params[i,]

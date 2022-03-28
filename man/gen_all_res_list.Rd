@@ -25,10 +25,6 @@ gen_all_res_list(
 (Required)  Two-dimensional numeric. Must be in gene x sample format. Must implemented \code{as.matrix}
 (Optional) In original scale.}
 
-\item{meta_bulk}{Meta data for bulk gene expression.
-(Optional) Dataframe, much include character variable SamplesName.
-(Required) If reference data is single cell rna seq.}
-
 \item{ref_list}{List of of list. Must implement as.list.
 
 

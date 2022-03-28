@@ -419,7 +419,7 @@ deconvSeq_wrap <- function(bulkdata,singlecelldata,celltypes.sc){
 
 # Wrapper function for DeconRNASeq
 DeconRNASeq_wrap <- function(to_deconv,sig_matrix){
-  x <- DeconRNASeq(datasets = to_deconv, signatures = sig_matrix, use.scale = TRUE, fig = FALSE)$out.all
+  x <- DeconRNASeq::DeconRNASeq(datasets = to_deconv, signatures = sig_matrix, use.scale = TRUE, fig = FALSE)$out.all
   rownames(x) <- colnames(to_deconv)
   return(x)
 }

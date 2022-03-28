@@ -1,21 +1,31 @@
 Package: EnsDeconv
 Type: Package
 Title: (Ensemble Deconvolution) which uses ensemble learning to to robustly estimate cellular fractions from bulk omics data.
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: as.person(c( 
     "Manqi Cai <manqi.cai.mk@gmail.com> [aut, cre]"))
 Maintainer: Manqi Cai <manqi.cai.mk@gmail.com>
 Description: (Ensemble Deconvolution) which uses ensemble learning to to robustly estimate cellular fractions from bulk omics data.
 biocViews:
 Imports: 
-    nnls, dtangle, EPIC, reshape2, edgeR, MuSiC, BisqueRNA,ComICS,xbioc,doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
-    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071,FARDEEP, DeconRNASeq, Seurat,ICeDT,RVenn,sva, hspe,reticulate
+    nnls, reshape2, edgeR,xbioc,doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
+    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071, Seurat,RVenn,sva
 Suggests: 
     declassification,
     testthat,
     knitr,
     rmarkdown,
     ggplot2,
+    dtangle,
+    EPIC,
+    MuSiC,
+    BisqueRNA,
+    ComICS,
+    FARDEEP,
+    ICeDT,
+    hspe,
+    DeconRNASeq,
+    reticulate
 Remotes: 
     xuranw/MuSiC,
     cozygene/bisque,

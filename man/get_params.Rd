@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_params.R
 \name{get_params}
 \alias{get_params}
-\title{This function generates parameters/settings for ensemble deconvolution}
+\title{This function allows you generate parameters for ensemble deconvolution.}
 \usage{
 get_params(
   TNormalization = c("CPM", "none", "TPM", "TMM", "QN"),
@@ -41,9 +41,9 @@ get_params(
 
 How many markers genes to use for deconvolution. Can either be a single integer, vector of integers. All cell types use the same number of markers.}
 
-\item{dmeths}{Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.}
+\item{Marker.Method}{Method used to choose marker genes}
 
-\item{Marker.Method}{Method used to choose marker genes
+\item{dmeths}{Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.
 
 \itemize{
 \item{'ratio'}{ selects and ranks markers by the ratio of the mean expression of each gene in each cell type to the mean of that gene in all other cell types.}
@@ -70,8 +70,8 @@ expression of that gene by the second most highly expressed cell type.}
 (Option) Vector of string. Defaults are "CPM", "TPM" and "none"}
 }
 \value{
-a data.frame that each row corresponds to a specific deconvolution scenario/setting
+a data.frame that each row corresponding to specific scenario
 }
 \description{
-This function generates parameters/settings for ensemble deconvolution.
+This function allows you generate parameters for ensemble deconvolution.
 }
