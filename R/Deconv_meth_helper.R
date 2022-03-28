@@ -109,7 +109,7 @@ deconv_method_switch <- function(method_name, to_deconv, ref_matrix, meta_ref,pu
                                       ICeDT = t(ICeDT(Y = to_deconv, Z = sig_matrix, tumorPurity = NULL, refVar = NULL)$rho[-1,]),
                                       DeconRNASeq = DeconRNASeq_wrap(to_deconv = as.data.frame(to_deconv),sig_matrix = as.data.frame(sig_matrix)),
                                       BayesPrism = run.Ted(ref.dat =t(sig_matrix), X = t(to_deconv), input.type="GEP")$res$final.gibbs.theta,
-                                      FARDEEP = fardeep(sig_matrix, to_deconv, nn = TRUE, intercept = TRUE, permn = 10, QN = FALSE)$abs.beta,
+                                      FARDEEP = FARDEEP::fardeep(sig_matrix, to_deconv, nn = TRUE, intercept = TRUE, permn = 10, QN = FALSE)$abs.beta,
                                       DCQ = dcq(reference_data = sig_matrix, mix_data = to_deconv, marker_set = as.data.frame(rownames(sig_matrix)), alpha_used = 0.05, lambda_min = 0.2, number_of_repeats = 10)$average,
                                       BayICE = t(BayICE(ref.set=ref_matrix, mix.set=to_deconv,ref.id=meta_ref$deconv_clust,iter=2000,burnin = 0.6,
                                              thinning = 3)[["w"]]),
