@@ -51,7 +51,7 @@
 #' @return  a data.frame that each row corresponding to specific scenario
 #' @export
 
-get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormalization = c("CPM","none","TPM","TMM","QN"), Scale = c("log","linear"), data_type, data_name, n_markers = 50, Marker.Method = c("t","wilcox","combined","none","p.value","regression"),dmeths = NULL,teqc = TRUE,batchcorrec =FALSE,RB_only = TRUE){
+get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormalization = c("CPM","none","TPM","TMM","QN"), Scale = c("log","linear"), data_type, data_name, n_markers = 50, Marker.Method = c("t","wilcox","combined","none","p.value","regression"),dmeths = NULL,teqc = TRUE,batchcorrec =FALSE){
  
    if(is.null(dmeths)){
     if(data_type == "singlecell-rna"){
@@ -60,8 +60,8 @@ get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormali
       dmeths <- c("dtangle", "hspe","CIBERSORT","EPIC","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ")
     }
   }
-  norm_params <-  list(TNormalization =TNormalization, CNormalization =CNormalization , data_type = data_type , data_name=data_name, Quantile = 0,
-                     n_markers = n_markers, Marker.Method=Marker.Method ,gamma =1 ,Scale=Scale, all_markers = TRUE,dmeths = dmeths)
+  norm_params <-  list(TNormalization =TNormalization, CNormalization =CNormalization , data_type = data_type , data_name=data_name, 
+                     n_markers = n_markers, Marker.Method=Marker.Method ,Scale=Scale, all_markers = TRUE,dmeths = dmeths)
   params <- expand.grid(norm_params, stringsAsFactors = FALSE)
   if(data_type %in% c("singlecell-rna","rna-seq")){
     # params<-params[!(params$Scale=="linear" & params$Marker.Method=="t"),]

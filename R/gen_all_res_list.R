@@ -117,7 +117,7 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
 
 
         # analyze data
-        a <- analyze(p$Marker.Method,q =  p$Quantile,n_markers = p$n_markers, gamma = p$gamma,dmeths = p$dmeths,
+        a <- analyze(p$Marker.Method,q =  0,n_markers = p$n_markers, gamma = 1,dmeths = p$dmeths,
                          normalize = p$Normalize, datasets = Dataset,scale = p$Scale,
                          customed_markers = customed_markers,rm.duplicated = rm.duplicated)
         if(!is.null(outpath)){
