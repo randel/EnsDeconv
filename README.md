@@ -10,6 +10,10 @@ devtools::install_github("randel/EnsDeconv", dependencies = T)
 <img src = "./man/figures/EnsDeconv_algorithm.png">
 
 
-More Information
+Tutorial
 -----------------
-Please see [Tutorial](https://randel.github.io/EnsDeconv/).
+https://randel.github.io/EnsDeconv/
+
+Shiny app
+-----------------
+https://github.com/manqicai/EnsDeconv_shiny
