@@ -2,6 +2,7 @@
 
 export(EnsDeconv)
 export(gen_all_res_list)
+export(gen_all_res_list_rshiny)
 export(get_params)
 import(glmnet)
 import(parallel)

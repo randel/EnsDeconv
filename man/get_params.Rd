@@ -14,8 +14,7 @@ get_params(
   Marker.Method = c("t", "wilcox", "combined", "none", "p.value", "regression"),
   dmeths = NULL,
   teqc = TRUE,
-  batchcorrec = FALSE,
-  RB_only = TRUE
+  batchcorrec = FALSE
 )
 }
 \arguments{
