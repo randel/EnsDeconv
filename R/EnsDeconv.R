@@ -31,11 +31,13 @@
 #' @export
 
 EnsDeconv <- function(count_bulk,ref_list,customed_markers = NULL,true_frac = NULL,params = NULL,
-                        outpath = NULL,parallel_comp = FALSE,ncore,rm.duplicated =FALSE,mrkpen = FALSE,markers_range = NULL,dmeths = NULL){
+                        outpath = NULL,parallel_comp = FALSE,ncore,rm.duplicated =FALSE,mrkpen = FALSE,markers_range = NULL,dmeths = NULL,inrshiny = FALSE){
 
-
+if(inrshiny){
+  allgene_res = gen_all_res_list_rshiny(count_bulk = as.matrix(count_bulk), meta_bulk = NULL, ref_list = ref_list, true_frac =true_frac, outpath =outpath, ncore =ncore, parallel_comp = parallel_comp, params = params,dmeths = dmeths)
+}else{
    allgene_res = gen_all_res_list(count_bulk = as.matrix(count_bulk), meta_bulk = NULL, ref_list = ref_list, true_frac =true_frac, outpath =outpath, ncore =ncore, parallel_comp = parallel_comp, params = params,dmeths = dmeths)
-  
+}
   # Check available scenarios
   ind = sapply(allgene_res, function(x){
     length(x[["a"]][["p_hat"]][[1]])

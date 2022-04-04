@@ -16,7 +16,8 @@ EnsDeconv(
   rm.duplicated = FALSE,
   mrkpen = FALSE,
   markers_range = NULL,
-  dmeths = NULL
+  dmeths = NULL,
+  inrshiny = FALSE
 )
 }
 \arguments{
