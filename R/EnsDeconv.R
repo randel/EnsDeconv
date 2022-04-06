@@ -44,7 +44,7 @@ if(inrshiny){
   })
   allgene_res = allgene_res[which(ind == 1)]
   
-  EnsDeconv_p = adaptive_L1(allgene_res)
+  EnsDeconv_p = CTS_EnsDeconv_wrapper(allgene_res)
   
   return(list(EnsDeconv = EnsDeconv_p,allgene_res = allgene_res))
 }
