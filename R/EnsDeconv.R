@@ -27,6 +27,7 @@
 #' @param mrkpen Logical. Apply markerpen on marker gene list. Default: FALSE.
 #' @param markers_range (Optional) Specific for markerpen.
 #' @importFrom matrixcalc frobenius.norm
+#' @importFrom quadprog solve.QP
 #' @return A list containing the output of the EnsDeconv algorithm (EnsDeconv) and a list output from each scenario (allgene_res). 
 #' @export
 

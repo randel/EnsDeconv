@@ -3,7 +3,7 @@ EnsDeconv (Ensemble Deconvolution) which uses ensemble learning to robustly esti
 
 ## Installation
 ```
-devtools::install_github("randel/EnsDeconv", dependencies = T)
+devtools::install_github("randel/EnsDeconv")
 ```
 
 ## Workflow
