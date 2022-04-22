@@ -8,7 +8,7 @@ CTS_EnsDeconv_LS <- function(What = phat_sim,mygamma=0.001,avar = FALSE,maxit = 
   W[[i]] <- Reduce(`+`, What) / length(What)
   #W[[i]] <-matrix(rep(1/K,n*K),n,K)
   
-  W_noK <- W[[i]][,-K]
+  W_noK <- W[[i]][,-K, drop = FALSE]
   if(avar){
     a <-apply(simplify2array(What), 2, function(x) 1/sd(c(x)))
   }else{
@@ -47,9 +47,15 @@ CTS_EnsDeconv_LS <- function(What = phat_sim,mygamma=0.001,avar = FALSE,maxit = 
     # Amat <- t(rbind(rep(-1,(K-1)),diag(1,(K-1),(K-1)),diag(-1,(K-1),(K-1))))
     bvec <-  c(-1,rep(0,(K-1)))
     Amat <- t(rbind(rep(-1,(K-1)),diag(1,(K-1),(K-1))))
-    W_noK_step <- t(sapply(1:n, function(j){
-      solve.QP(Dmat =diag(1,(K-1),(K-1)) ,dvec = Z[j,],Amat = Amat,bvec = bvec)$solution
-    }))
+    if(K>2){
+      W_noK_step <- t(sapply(1:n, function(j){
+        solve.QP(Dmat =diag(1,(K-1),(K-1)) ,dvec = Z[j,],Amat = Amat,bvec = bvec)$solution
+      }))
+    }else{
+      W_noK_step <- t(t(sapply(1:n, function(j){
+        solve.QP(Dmat =diag(1,(K-1),(K-1)) ,dvec = Z[j,],Amat = Amat,bvec = bvec)$solution
+      })))
+    }
     
     int_diff <-  myf(W_noK,What_f = What,K_f = K,a=a)-myf(W_noK_step,What_f = What,K_f = K,a=a)
     int_diff2 <- mysigma*sum(Delta_CT*(W_noK-W_noK_step))
@@ -62,9 +68,17 @@ CTS_EnsDeconv_LS <- function(What = phat_sim,mygamma=0.001,avar = FALSE,maxit = 
       # Amat <- t(rbind(rep(-1,(K-1)),diag(1,(K-1),(K-1)),diag(-1,(K-1),(K-1))))
       bvec <-  c(-1,rep(0,(K-1)))
       Amat <- t(rbind(rep(-1,(K-1)),diag(1,(K-1),(K-1))))
-      W_noK_step <- t(sapply(1:n, function(j){
-        solve.QP(Dmat =diag(1,(K-1),(K-1)) ,dvec = Z[j,],Amat = Amat,bvec = bvec)$solution
-      }))
+      
+      if(K>2){
+        W_noK_step <- t(sapply(1:n, function(j){
+          solve.QP(Dmat =diag(1,(K-1),(K-1)) ,dvec = Z[j,],Amat = Amat,bvec = bvec)$solution
+        }))
+      }else{
+        W_noK_step <- t(t(sapply(1:n, function(j){
+          solve.QP(Dmat =diag(1,(K-1),(K-1)) ,dvec = Z[j,],Amat = Amat,bvec = bvec)$solution
+        })))
+      }
+      
       int_diff <-  myf(W_noK,What_f = What,K_f = K,a=a)-myf(W_noK_step,What_f = What,K_f = K,a=a)
       int_diff2 <- mysigma*sum(Delta_CT*(W_noK-W_noK_step))
     }
