@@ -1,7 +1,7 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.0
+pandoc: 2.11.4
+pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   EnsDeconv: EnsDeconv.html
-last_built: 2022-06-27T02:08Z
+last_built: 2022-06-27T02:51Z
 
