@@ -9,7 +9,7 @@ vignette: >
 
 # Install packages
 
-```{r}
+```{r eval=FALSE}
 # install devtools if necessary
 if (!"devtools" %in% rownames(installed.packages())) {
   install.packages('devtools')

@@ -20,12 +20,16 @@ navbar:
 
 reference:
 - title: "Deconvolution"
-  desc: "Functions for EnsDeconv Deconvolution"
+  desc: "Functions for EnsDeconv Deconvolution."
 - contents:
   - matches("EnsDeconv")
 
 - title: "Parameters"
-  desc: "Functions for preparing deconvolution parameters"
+  desc: "Functions for preparing deconvolution parameters."
 - contents:
   - matches("get_params")
 
+- title: "Parallel computation"
+  desc: "Functions for parallel computing."
+  contents:
+  - starts_with("gen_all_res")

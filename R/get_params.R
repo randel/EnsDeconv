@@ -26,10 +26,12 @@
 #'
 #' How many markers genes to use for deconvolution. Can either be a single integer, vector of integers. All cell types use the same number of markers.
 #'
+#' @param dmeths Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.
+#' For RNA seq deconvolution, EnsDeconv will run "dtangle", "hspe","CIBERSORT","EPIC","MuSiC","BisqueRNA","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ".
+#' For microarray deconvolution, EnsDeconv will not run "MuSiC" and "BisqueRNA".
+#'
 #'
 #' @param Marker.Method Method used to choose marker genes
-#' @param dmeths Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.
-#'
 #' \itemize{
 #' \item{'ratio'}{ selects and ranks markers by the ratio of the mean expression of each gene in each cell type to the mean of that gene in all other cell types.}
 #' \item{'regression '}{ selects and ranks markers by estimated regression coefficients in a series of regressions with single covariate that is indicator of
