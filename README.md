@@ -1,5 +1,5 @@
 # EnsDeconv
-EnsDeconv (Ensemble Deconvolution) uses ensemble learning to robustly estimate cellular fractions from bulk omics data.
+EnsDeconv (Ensemble Deconvolution) uses ensemble learning to robustly estimate cellular fractions from bulk omics.
 
 
 ## Installation
