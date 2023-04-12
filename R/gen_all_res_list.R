@@ -95,12 +95,18 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
     os = get_os()
     if(os == "windows"){
       cl = makeCluster(ncore, outfile="")
-    }else{
+      registerDoSNOW(cl)
+      clusterCall(cl, function(x) .libPaths(x), .libPaths())
+    }else if(os == "osx"){
       cl = makeCluster(ncore, setup_strategy = "sequential")
+      registerDoSNOW(cl)
+      clusterCall(cl, function(x) .libPaths(x), .libPaths())
+    }else if(os == "Linux"){
+      cl <- makeCluster(ncore,type = "SOCK")
+      registerDoSNOW(cl)
     }
 
-  registerDoSNOW(cl)
-  clusterCall(cl, function(x) .libPaths(x), .libPaths())
+  
     res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass',
                       .packages = c("nnls","xbioc","Biobase","scran","preprocessCore","glmnet","sva","RVenn","edgeR","Seurat","dplyr","sparseMatrixStats")) %dopar% {
   #res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass') %dopar% {                   
