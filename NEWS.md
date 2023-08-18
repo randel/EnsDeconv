@@ -1,4 +1,7 @@
 # EnsDeconv 0.2.0
+* Update packages requirements.
+
+* This is the second release of pkgdown.
 
 # EnsDeconv 0.1.1
 
@@ -6,10 +9,7 @@
 
 * This is the first release of pkgdown.
 
-# EnsDeconv 0.1.2
 
-* Update packages requirements.
 
-* This is the second release of pkgdown.
 
 

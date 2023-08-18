@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EnsDeconv</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -32,7 +32,7 @@
   <a href="../articles/EnsDeconv.html">Vignettes</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Documentation</a>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -62,18 +62,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_params</span><span class="op">(</span>
-  TNormalization <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CPM"</span>, <span class="st">"none"</span>, <span class="st">"TPM"</span>, <span class="st">"TMM"</span>, <span class="st">"QN"</span><span class="op">)</span>,
-  CNormalization <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CPM"</span>, <span class="st">"none"</span>, <span class="st">"TPM"</span>, <span class="st">"TMM"</span>, <span class="st">"QN"</span><span class="op">)</span>,
-  Scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"linear"</span><span class="op">)</span>,
-  <span class="va">data_type</span>,
-  <span class="va">data_name</span>,
-  n_markers <span class="op">=</span> <span class="fl">50</span>,
-  Marker.Method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"t"</span>, <span class="st">"wilcox"</span>, <span class="st">"combined"</span>, <span class="st">"none"</span>, <span class="st">"p.value"</span>, <span class="st">"regression"</span><span class="op">)</span>,
-  dmeths <span class="op">=</span> <span class="cn">NULL</span>,
-  teqc <span class="op">=</span> <span class="cn">TRUE</span>,
-  batchcorrec <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_params</span><span class="op">(</span></span>
+<span>  TNormalization <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CPM"</span>, <span class="st">"none"</span>, <span class="st">"TPM"</span>, <span class="st">"TMM"</span>, <span class="st">"QN"</span><span class="op">)</span>,</span>
+<span>  CNormalization <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CPM"</span>, <span class="st">"none"</span>, <span class="st">"TPM"</span>, <span class="st">"TMM"</span>, <span class="st">"QN"</span><span class="op">)</span>,</span>
+<span>  Scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"linear"</span><span class="op">)</span>,</span>
+<span>  <span class="va">data_type</span>,</span>
+<span>  <span class="va">data_name</span>,</span>
+<span>  n_markers <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  Marker.Method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"t"</span>, <span class="st">"wilcox"</span>, <span class="st">"combined"</span>, <span class="st">"none"</span>, <span class="st">"p.value"</span>, <span class="st">"regression"</span><span class="op">)</span>,</span>
+<span>  dmeths <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  teqc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  batchcorrec <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -81,24 +81,29 @@
     <dl><dt>Scale</dt>
 <dd><p>Scaling methods for gene expression data.</p>
 <p>(Option) Vector of string. Defaults are "log" and "linear"</p></dd>
+
+
 <dt>data_type</dt>
 <dd><p>Reference data data type</p>
 <p>(Required) One-dimensional string. Options are</p>
 <ul><li><p>'singlecell-rna' Single cell RNA seq reference.</p></li>
 <li><p>'microarray' Microarray reference.</p></li>
 </ul></dd>
+
+
 <dt>data_name</dt>
 <dd><p>Name for bulk_reference</p>
 <p>(Options) One-dimensional string. Can be in format : bulk_reference</p></dd>
+
+
 <dt>n_markers</dt>
 <dd><p>Number of markers</p>
 <p>(Option) One-dimensional numeric, default is 150</p>
 <p>How many markers genes to use for deconvolution. Can either be a single integer, vector of integers. All cell types use the same number of markers.</p></dd>
+
+
 <dt>Marker.Method</dt>
-<dd><p>Method used to choose marker genes</p></dd>
-<dt>dmeths</dt>
-<dd><p>Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.</p>
-<ul><li><p>'ratio' selects and ranks markers by the ratio of the mean expression of each gene in each cell type to the mean of that gene in all other cell types.</p></li>
+<dd><p>Method used to choose marker genes</p><ul><li><p>'ratio' selects and ranks markers by the ratio of the mean expression of each gene in each cell type to the mean of that gene in all other cell types.</p></li>
 <li><p>'regression ' selects and ranks markers by estimated regression coefficients in a series of regressions with single covariate that is indicator of
 each type.</p></li>
 <li><p>'diff' selects and ranks markers based upon the difference, for each cell type, between the median expression of a gene by each cell type and the
@@ -112,17 +117,32 @@ expression of that gene by the second most highly expressed cell type.</p></li>
 <li><p>'Hedge' Iteratively searches for cell type-specific features</p></li>
 <li><p>'roc' Iteratively searches for cell type-specific features</p></li>
 </ul></dd>
+
+
+<dt>dmeths</dt>
+<dd><p>Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.
+For RNA seq deconvolution, EnsDeconv will run "dtangle", "hspe","CIBERSORT","EPIC","MuSiC","BisqueRNA","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ".
+For microarray deconvolution, EnsDeconv will not run "MuSiC" and "BisqueRNA".</p></dd>
+
+
 <dt>teqc</dt>
 <dd><p>Logical. Use same normalization between bulk data and reference data. Default: TRUE.</p></dd>
+
+
 <dt>batchcorrec</dt>
 <dd><p>Logical. Apply batch correction or not. Default: FALSE</p></dd>
+
+
 <dt>Normalization</dt>
 <dd><p>normalization methods for bulk gene expression and reference gene expression</p>
 <p>(Option) Vector of string. Defaults are "CPM", "TPM" and "none"</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data.frame that each row corresponding to specific scenario</p>
+    
+
+<p>a data.frame that each row corresponding to specific scenario</p>
     </div>
 
   </div>
@@ -137,7 +157,7 @@ expression of that gene by the second most highly expressed cell type.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

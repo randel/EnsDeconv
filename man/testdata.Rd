@@ -16,6 +16,15 @@ A list of count_bulk and ref_list:
 testdata
 }
 \description{
-A dataset containing a sample bulk dataset and sample reference data.
+testdata.
 }
-\keyword{datasets}
+\keyword{A}
+\keyword{a}
+\keyword{and}
+\keyword{bulk}
+\keyword{containing}
+\keyword{data.}
+\keyword{dataset}
+\keyword{internal}
+\keyword{reference}
+\keyword{sample}

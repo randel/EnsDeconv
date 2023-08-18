@@ -2,7 +2,7 @@ template:
   params:
       bootswatch: flatly
       ganalytics: UA-82807227-1
-      
+
 URL: https://randel.github.io/EnsDeconv/
       
 navbar:
@@ -10,7 +10,7 @@ navbar:
   left:
     - text: "Vignettes"
       href: articles/EnsDeconv.html
-    - text: "Reference"
+    - text: "Documentation"
       href: reference/index.html
     - text: "News"
       href: news/index.html
@@ -21,12 +21,12 @@ navbar:
 reference:
 - title: "Deconvolution"
   desc: "Functions for EnsDeconv Deconvolution."
-- contents:
+  contents:
   - matches("EnsDeconv")
 
 - title: "Parameters"
   desc: "Functions for preparing deconvolution parameters."
-- contents:
+  contents:
   - matches("get_params")
 
 - title: "Parallel computation"

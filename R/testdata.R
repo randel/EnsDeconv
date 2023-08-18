@@ -1,5 +1,7 @@
 #' testdata.
 #'
+#' @keywords internal
+
 #' A dataset containing a sample bulk dataset and sample reference data.
 #'
 #' @format A list of count_bulk and ref_list:

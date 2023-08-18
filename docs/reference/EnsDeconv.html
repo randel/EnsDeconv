@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EnsDeconv</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -32,7 +32,7 @@
   <a href="../articles/EnsDeconv.html">Vignettes</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Documentation</a>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -62,21 +62,21 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">EnsDeconv</span><span class="op">(</span>
-  <span class="va">count_bulk</span>,
-  <span class="va">ref_list</span>,
-  customed_markers <span class="op">=</span> <span class="cn">NULL</span>,
-  true_frac <span class="op">=</span> <span class="cn">NULL</span>,
-  params <span class="op">=</span> <span class="cn">NULL</span>,
-  outpath <span class="op">=</span> <span class="cn">NULL</span>,
-  parallel_comp <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">ncore</span>,
-  rm.duplicated <span class="op">=</span> <span class="cn">FALSE</span>,
-  mrkpen <span class="op">=</span> <span class="cn">FALSE</span>,
-  markers_range <span class="op">=</span> <span class="cn">NULL</span>,
-  dmeths <span class="op">=</span> <span class="cn">NULL</span>,
-  inrshiny <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">EnsDeconv</span><span class="op">(</span></span>
+<span>  <span class="va">count_bulk</span>,</span>
+<span>  <span class="va">ref_list</span>,</span>
+<span>  customed_markers <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  true_frac <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  params <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  outpath <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parallel_comp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">ncore</span>,</span>
+<span>  rm.duplicated <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  mrkpen <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  markers_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dmeths <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  inrshiny <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -85,6 +85,8 @@
 <dd><p>Bulk gene expression.</p>
 <p>(Required)  Two-dimensional numeric. Must be in gene x sample format. Must implemented <code>as.matrix</code>.
 (Optional) In original scale.</p></dd>
+
+
 <dt>ref_list</dt>
 <dd><p>List of of list. Must implement as.list.</p>
 <p>(Required) The i-th element of the top-level list is a list of <code>ref_matrix</code>, <code>meta_ref</code>. Names of the top level list should be vector of
@@ -93,29 +95,50 @@
 <li><p>'meta_ref' Meta data for reference data. Must include two variables: "SamplesName" (column names of ref_matrix), "deconv_clust" (deconvolution cluster, eg. cell types).</p></li>
 <li><p>'data_name'Data description. Character in format "bulk data name_reference data name"</p></li>
 </ul></dd>
+
+
 <dt>customed_markers</dt>
 <dd><p>(Optional) Self-defined markers.</p></dd>
+
+
 <dt>true_frac</dt>
 <dd><p>(Optional) True cell type proportions for bulk gene expression
 Two-dimensional numeric. Must be in samples by cell type.</p></dd>
+
+
 <dt>params</dt>
 <dd><p>Parameters Dataframe for ensemble learning, more details could refer to <code>get_params</code>.</p></dd>
+
+
 <dt>outpath</dt>
 <dd><p>(Optional) Path to save output.</p></dd>
+
+
 <dt>parallel_comp</dt>
 <dd><p>Logical. Use parallel computing or not. Default: FALSE.</p></dd>
+
+
 <dt>ncore</dt>
 <dd><p>The number of cores to use for parallel execution.</p></dd>
+
+
 <dt>rm.duplicated</dt>
 <dd><p>Logical. Remove duplicated genes after maker gene selection. Default: FALSE.</p></dd>
+
+
 <dt>mrkpen</dt>
 <dd><p>Logical. Apply markerpen on marker gene list. Default: FALSE.</p></dd>
+
+
 <dt>markers_range</dt>
 <dd><p>(Optional) Specific for markerpen.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list containing the output of the EnsDeconv algorithm (EnsDeconv) and a list output from each scenario (allgene_res).</p>
+    
+
+<p>A list containing the output of the EnsDeconv algorithm (EnsDeconv) and a list output from each scenario (allgene_res).</p>
     </div>
 
   </div>
@@ -130,7 +153,7 @@ Two-dimensional numeric. Must be in samples by cell type.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
