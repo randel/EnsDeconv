@@ -40,10 +40,7 @@ get_params(
 
 How many markers genes to use for deconvolution. Can either be a single integer, vector of integers. All cell types use the same number of markers.}
 
-\item{Marker.Method}{Method used to choose marker genes}
-
-\item{dmeths}{Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.
-
+\item{Marker.Method}{Method used to choose marker genes
 \itemize{
 \item{'ratio'}{ selects and ranks markers by the ratio of the mean expression of each gene in each cell type to the mean of that gene in all other cell types.}
 \item{'regression '}{ selects and ranks markers by estimated regression coefficients in a series of regressions with single covariate that is indicator of
@@ -59,6 +56,10 @@ expression of that gene by the second most highly expressed cell type.}
 \item{'Hedge'}{ Iteratively searches for cell type-specific features }
 \item{'roc'}{ Iteratively searches for cell type-specific features }
 }}
+
+\item{dmeths}{Deconvolution methods to used. Default is NULL, EnsDeconv will run all possible deconvolution methods for specific reference data sets.
+For RNA seq deconvolution, EnsDeconv will run "dtangle", "hspe","CIBERSORT","EPIC","MuSiC","BisqueRNA","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ".
+For microarray deconvolution, EnsDeconv will not run "MuSiC" and "BisqueRNA".}
 
 \item{teqc}{Logical. Use same normalization between bulk data and reference data. Default: TRUE.}
 

@@ -34,20 +34,12 @@
 #' @importFrom progress progress_bar
 #' @importFrom doSNOW registerDoSNOW
 #' @importFrom Biobase exprs
-#' @importFrom e1071 svm
 #' @importFrom foreach foreach %dopar%
 #' @importFrom Matrix t
-#' @importFrom dtangle dtangle
-#' @importFrom MuSiC music_prop
-#' @importFrom EPIC EPIC
 #' @importFrom xbioc pVar
-#' @importFrom ICeDT ICeDT
 #' @importFrom preprocessCore normalize.quantiles
-#' @importFrom hspe hspe
 #' @importFrom sva ComBat
 #' @importFrom RVenn overlap_pairs Venn
-#' @importFrom FARDEEP fardeep 
-#' @importFrom ComICS dcq
 #' @importFrom sparseMatrixStats rowVars
 #' @importFrom  Seurat FindAllMarkers CreateSeuratObject
 #' @importFrom scran findMarkers
@@ -61,7 +53,7 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
   if(!is.null(outpath)){
     dir.create(outpath,showWarnings = F)
   }
-  
+
   # before parallel computing
   if(is.null(params)){
     params <- get_params(data_type = "singlecell-rna", data_name = names(ref_list))
@@ -91,7 +83,7 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
 
 
     opts <- list(progress = progress)
-    
+
     os = get_os()
     if(os == "windows"){
       cl = makeCluster(ncore, outfile="")
@@ -106,11 +98,11 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
       registerDoSNOW(cl)
     }
 
-  
+
     res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass',
                       .packages = c("nnls","xbioc","Biobase","scran","preprocessCore","glmnet","sva","RVenn","edgeR","Seurat","dplyr","sparseMatrixStats")) %dopar% {
-  #res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass') %dopar% {                   
-      
+  #res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass') %dopar% {
+
       p = params[i,]
       logdir <- paste0(outpath,p$data_name,"/Analysis/")
       dir.create(logdir, showWarnings = FALSE, recursive = TRUE)
@@ -130,14 +122,14 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
           dir.create(paste0(outpath,p$data_name), showWarnings = FALSE, recursive = TRUE)
           dir.create(paste0(outpath,p$data_name,"/cases/"), showWarnings = FALSE, recursive = TRUE)
           saveRDS(list(a = a, p = p), file = paste0(outpath,p$data_name,"/cases/", paste0(params[i, ], collapse = "_"),  ".rds"))
-          
+
         }
           base::message(base::sprintf("Remaining %i ", i),
                       "scenarios.")
       }, file = paste0(logdir, "log", i, ".txt"))
       gc()
         res_list= list(a = a, p = p,ensemble = 0)
-      
+
       return(res_list)
     }
     stopCluster(cl)
@@ -163,14 +155,14 @@ gen_all_res_list = function(count_bulk,meta_bulk = NULL,ref_list,customed_marker
       if(!is.null(outpath)){
         saveRDS(list(a = a, p = p), file = paste0(outpath, paste0(params[i, ], collapse = "_"),  ".rds"))
       }
-      
+
     }
 
   }
   if(!is.null(outpath)){
     saveRDS(res_all,paste0(outpath,"Res_list.rds"))
   }
-  
+
 
   return(res_all)
 

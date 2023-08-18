@@ -3,7 +3,16 @@ EnsDeconv (Ensemble Deconvolution) uses ensemble learning to robustly estimate c
 
 
 ## Installation
+
 ```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# List of packages to install
+packages <- c("SingleCellExperiment", "scran", "preprocessCore","TOAST")
+
+BiocManager::install(packages)
+
 devtools::install_github("randel/EnsDeconv")
 ```
 

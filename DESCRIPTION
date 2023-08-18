@@ -9,26 +9,18 @@ Description: (Ensemble Deconvolution) which uses ensemble learning to to robustl
 biocViews:
 Imports: 
     nnls, reshape2, edgeR,xbioc,doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
-    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071, Seurat,RVenn,sva,quadprog
+    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071, Seurat,RVenn,sva,quadprog,
+    SingleCellExperiment, scran, preprocessCore, glmnet,dtangle,
+    EPIC, MuSiC, bisque, ComICS, FARDEEP, ICeDT, hspe, DeconRNASeq,hspe
 Suggests: 
     declassification,
     testthat,
     knitr,
     rmarkdown,
     ggplot2,
-    dtangle,
-    EPIC,
-    MuSiC,
-    BisqueRNA,
-    ComICS,
-    FARDEEP,
-    ICeDT,
-    hspe,
-    DeconRNASeq,
     reticulate
 Remotes: 
     xuranw/MuSiC,
-    cozygene/bisque,
     renozao/xbioc,
     Sun-lab/ICeDT,
     GfellerLab/EPIC,
@@ -36,7 +28,7 @@ Remotes:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr
