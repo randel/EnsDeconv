@@ -51,10 +51,12 @@
 #' @param teqc Logical. Use same normalization between bulk data and reference data. Default: TRUE.
 #' @param batchcorrec Logical. Apply batch correction or not. Default: FALSE
 #' @return  a data.frame that each row corresponding to specific scenario
+#'
+#' @import dplyr
 #' @export
 
 get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormalization = c("CPM","none","TPM","TMM","QN"), Scale = c("log","linear"), data_type, data_name, n_markers = 50, Marker.Method = c("t","wilcox","combined","none","p.value","regression"),dmeths = NULL,teqc = TRUE,batchcorrec =FALSE){
- 
+
    if(is.null(dmeths)){
     if(data_type == "singlecell-rna"){
       dmeths <- c("dtangle", "hspe","CIBERSORT","EPIC","MuSiC","BisqueRNA","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ")
@@ -62,7 +64,7 @@ get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormali
       dmeths <- c("dtangle", "hspe","CIBERSORT","EPIC","GEDIT", "ICeDT","DeconRNASeq","FARDEEP","DCQ")
     }
   }
-  norm_params <-  list(TNormalization =TNormalization, CNormalization =CNormalization , data_type = data_type , data_name=data_name, 
+  norm_params <-  list(TNormalization =TNormalization, CNormalization =CNormalization , data_type = data_type , data_name=data_name,
                      n_markers = n_markers, Marker.Method=Marker.Method ,Scale=Scale, all_markers = TRUE,dmeths = dmeths)
   params <- expand.grid(norm_params, stringsAsFactors = FALSE)
   if(data_type %in% c("singlecell-rna","rna-seq")){
@@ -84,12 +86,12 @@ get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormali
 
   #params$batchcorrec = batchcorrec
 
-  
-  params =  params%>% 
+
+  params =  params%>%
     filter(!(Scale == "linear" & dmeths %in% c("dtangle","hspe"))) %>%
-    filter(!(Scale == "log" & dmeths %in% c("ICeDT","BisqueRNA","MuSiC"))) %>% 
+    filter(!(Scale == "log" & dmeths %in% c("ICeDT","BisqueRNA","MuSiC"))) %>%
     filter(!(TNormalization == "QN" & dmeths == "GEDIT"))
-  
-  
+
+
   return(params)
 }
