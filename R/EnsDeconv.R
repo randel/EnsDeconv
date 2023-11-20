@@ -4,16 +4,18 @@
 #'
 #' @param count_bulk Bulk gene expression data.
 #' @details The count_bulk parameter expects a two-dimensional numeric matrix in a gene-by-sample format. 
-#'          It must be convertible using `as.matrix`. Optionally, the data can be in its original scale.
+#'          It must be convertible using \code{as.matrix}. Optionally, the data can be in its original scale.
 #'
 #' @param ref_list Reference data list.
-#' @details The ref_list is a list of lists, where each sublist contains `ref_matrix` and `meta_ref`. 
-#'          The top-level list should be named with a vector of `data_name`, indicating the bulk-reference pair.
+#' @details The ref_list is a list of lists, where each sublist contains \code{ref_matrix} and \code{meta_ref}. 
+#'          The top-level list should be named with a vector of \code{data_name}, indicating the bulk-reference pair.
 #'          The sublists should contain:
-#'          - `ref_matrix`: A matrix with rows as genes and columns as samples.
-#'          - `meta_ref`: Metadata for reference data, including "SamplesName" (column names of ref_matrix) 
-#'            and "deconv_clust" (deconvolution clusters, e.g., cell types).
-#'          - `data_name`: A description of the data, formatted as "bulk data name_reference data name".
+#'          \itemize{
+#'          \item{ref_matrix}{A matrix with rows as genes and columns as samples.}
+#'          \item{meta_ref}{Metadata for reference data, including "SamplesName" (column names of ref_matrix) 
+#'            and "deconv_clust" (deconvolution clusters, e.g., cell types).}
+#'          \item{data_name}{A description of the data, formatted as "bulk data name_reference data name".}
+#'          }
 #'          
 #' @param enableFileSaving Enable Saving of Intermediate Output
 #' @details (Optional) A boolean flag that controls the saving of intermediate outputs as separate files. 
@@ -23,9 +25,9 @@
 #'
 #' @param outputPath Destination for Saved Output Files
 #' @details (Optional) Specifies the ile path where output files should be saved, applicable 
-#'          only if "enableFileSaving" is set to TRUE. Providing this path directs the function 
+#'          only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
 #'          to save all intermediate output files to the specified location. 
-#'          If "enableFileSaving" is FALSE or not set, the value of "outputPath" is ignored.
+#'          If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
 #'          This parameter should be a valid file system path.
 #'          
 #' @param parallel_comp Use parallel computing.
@@ -33,7 +35,7 @@
 #'          Defaults to FALSE.
 #'
 #' @param ncore Number of cores for parallel execution.
-#' @details (Optional) Sets the number of cores for parallel processing when "parallel_comp" is TRUE. 
+#' @details (Optional) Sets the number of cores for parallel processing when \code{parallel_comp} is TRUE. 
 #'          Default is 5. Only effective if parallel computing is enabled.
 #'
 #'
@@ -43,15 +45,15 @@
 #'
 #' @param params Ensemble learning parameters.
 #' @details (Optional) A dataframe specifying parameters for ensemble learning. 
-#'          For more details, refer to the `get_params` function.
+#'          For more details, refer to the \code{get_params} function.
 #'
 #'
 #' @importFrom matrixcalc frobenius.norm
 #' @importFrom quadprog solve.QP
 #'
 #' @return A list containing two elements:
-#'         - `EnsDeconv`: The output of the EnsDeconv algorithm.
-#'         - `allgene_res`: A list of results from each scenario analyzed.
+#'         - \code{EnsDeconv}: The output of the EnsDeconv algorithm.
+#'         - \code{allgene_res}: A list of results from each scenario analyzed.
 #'
 #' @export
 #'
