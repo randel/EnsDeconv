@@ -9,7 +9,7 @@ Description: (Ensemble Deconvolution) which uses ensemble learning to to robustl
 biocViews:
 Imports: 
     nnls, reshape2, edgeR,xbioc,doParallel, foreach, dplyr, sparseMatrixStats, Matrix, 
-    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071, Seurat,RVenn,sva,quadprog,
+    stringr, tidyr, progress, doSNOW, Biobase, caret, e1071, Seurat,quadprog,
     SingleCellExperiment, scran, preprocessCore, glmnet,dtangle,
     EPIC, MuSiC, bisque, ComICS, FARDEEP, ICeDT, hspe, DeconRNASeq
 Suggests: 

@@ -1,6 +1,6 @@
 #This function is intended to prepare data markers for deconvolution
 ############ analyze_dset
-analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normalize, customed_markers = NULL, markers_range = NULL,batchcorrec = F,scale,rm.duplicated = TRUE,mrkpen = FALSE) {
+analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normalize,scale) {
 
   p_hat <- list()
   p_hat_bc <- list()
@@ -27,9 +27,7 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
   # Get Marker Genes
 
-  if(method == "customed"){
-    mrks <- customed_markers
-  }else if(method == "limma"){
+  if(method == "limma"){
     design <- 1*dset$annotation$pure
     v <- voom(dset$data$data_c, design=design, plot=FALSE)
     fit <- lmFit(v, design)
@@ -108,27 +106,10 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
   }else if(method == "Hedge"){
     mrks = my_hedge(ref_mtx = dset$data$data_c,meta_ref = dset$data$meta_ref,n_mrk = n_markers)
   }
-
   
-  if(rm.duplicated){
-    if(is.list(mrks)){
-      mrks_old = mrks
-      mrk_venn <- Venn(mrks)
-      dup_mrk <- unlist(overlap_pairs(mrk_venn))
-      mrks = lapply(mrks, function(x) setdiff(x,dup_mrk))
-    }else{
-      mrks_old = NULL
-    }
 
-  }else{
-      mrks_old = NULL
-  }
-
-  # markerpen
-  if(mrkpen){
-      mrks_old = mrks
-      mrks <- get_mrkpen_bulk(bulk = dset$data$data_t,mrk_old = mrks,markers_range = markers_range,scale = scale)
-  }
+    mrks_old = NULL
+  
 
     # Run deconvolution methods
     p_truth <- annotation$mixture[-pure, ]
@@ -136,7 +117,7 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
     for (mth in dmeths) {
       dcnv_out <-run_deconv_method(method_name = mth,to_deconv= dset$data$data_t,ref_matrix = dset$data$data_c,sig_matrix = sig_matrix,meta_ref = dset$data$meta_ref,pure_samples = pure_samples,markers= mrks,
-                                   data_type = data_type , verb = verb, marker_method = method,batchcorrec = batchcorrec,scale = scale)
+                                   data_type = data_type , verb = verb, marker_method = method,batchcorrec = F,scale = scale)
 
       p_hat[[mth]] <- dcnv_out$estimate
       timing[[mth]] <- dcnv_out$time
@@ -153,14 +134,14 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
 
 analyze <- function(method, q, n_markers,gamma, dmeths = NULL, verb = TRUE, normalize = TRUE,scale = scale,
-                    datasets = NULL, scl = function(x) 2^x, customed_markers = NULL,Scale,markers_range = NULL,batchcorrec = FALSE,rm.duplicated = TRUE,mrkpen = FALSE) {
+                    datasets = NULL) {
   sig <- paste(method, q, gamma)
   updt(paste(sig, "Starting."), init = TRUE)
 
   start_time <- Sys.time()
 
   output <- lapply(datasets, function(dset) analyze_dset(dset, method =method, q = q,n_markers =n_markers, gamma=gamma,
-                                                         dmeths = dmeths, verb = verb, normalize = normalize, customed_markers = customed_markers,scale = scale,rm.duplicated = rm.duplicated,mrkpen = mrkpen ))
+                                                         dmeths = dmeths, verb = verb, normalize = normalize,scale = scale ))
   end_time <- Sys.time()
 
 
