@@ -2,63 +2,84 @@
 % Please edit documentation in R/EnsDeconv.R
 \name{EnsDeconv}
 \alias{EnsDeconv}
-\title{This function is a wrapper for EnsDeconv}
+\title{EnsDeconv: A Wrapper Function for Ensemble Deconvolution}
 \usage{
 EnsDeconv(
   count_bulk,
   ref_list,
-  customed_markers = NULL,
-  true_frac = NULL,
-  params = NULL,
+  enableFileSaving = FALSE,
   outpath = NULL,
   parallel_comp = FALSE,
-  ncore,
-  rm.duplicated = FALSE,
-  mrkpen = FALSE,
-  markers_range = NULL,
-  dmeths = NULL,
+  ncore = 5,
+  true_frac = NULL,
+  params = NULL,
   inrshiny = FALSE
 )
 }
 \arguments{
-\item{count_bulk}{Bulk gene expression.
+\item{count_bulk}{Bulk gene expression data.}
 
-(Required)  Two-dimensional numeric. Must be in gene x sample format. Must implemented \code{as.matrix}.
-(Optional) In original scale.}
+\item{ref_list}{Reference data list.}
 
-\item{ref_list}{List of of list. Must implement as.list.
+\item{enableFileSaving}{Enable Saving of Intermediate Output}
 
-(Required) The i-th element of the top-level list is a list of \code{ref_matrix}, \code{meta_ref}. Names of the top level list should be vector of
-\code{data_name}, namely : bulk-reference.
+\item{parallel_comp}{Use parallel computing.}
 
-\itemize{
-\item{'ref_matrix'}{ Reference matrix, rows are genes, columns are samples.}
-\item{'meta_ref'}{ Meta data for reference data. Must include two variables: "SamplesName" (column names of ref_matrix), "deconv_clust" (deconvolution cluster, eg. cell types).}
-\item{'data_name'}{Data description. Character in format "bulk data name_reference data name"}
-}}
+\item{ncore}{Number of cores for parallel execution.}
 
-\item{customed_markers}{(Optional) Self-defined markers.}
+\item{true_frac}{True cell type proportions.}
 
-\item{true_frac}{(Optional) True cell type proportions for bulk gene expression
-Two-dimensional numeric. Must be in samples by cell type.}
+\item{params}{Ensemble learning parameters.}
 
-\item{params}{Parameters Dataframe for ensemble learning, more details could refer to \code{get_params}.}
-
-\item{outpath}{(Optional) Path to save output.}
-
-\item{parallel_comp}{Logical. Use parallel computing or not. Default: FALSE.}
-
-\item{ncore}{The number of cores to use for parallel execution.}
-
-\item{rm.duplicated}{Logical. Remove duplicated genes after maker gene selection. Default: FALSE.}
-
-\item{mrkpen}{Logical. Apply markerpen on marker gene list. Default: FALSE.}
-
-\item{markers_range}{(Optional) Specific for markerpen.}
+\item{outputPath}{Destination for Saved Output Files}
 }
 \value{
-A list containing the output of the EnsDeconv algorithm (EnsDeconv) and a list output from each scenario (allgene_res).
+A list containing two elements:
+        - \code{EnsDeconv}: The output of the EnsDeconv algorithm.
+        - \code{allgene_res}: A list of results from each scenario analyzed.
 }
 \description{
-This function is a wrapper for EnsDeconv
+This function serves as a wrapper for the EnsDeconv algorithm, providing an interface for ensemble deconvolution analysis on gene expression data.
+}
+\details{
+The count_bulk parameter expects a two-dimensional numeric matrix in a gene-by-sample format. 
+         It must be convertible using \code{as.matrix}. Optionally, the data can be in its original scale.
+
+The ref_list is a list of lists, where each sublist contains \code{ref_matrix} and \code{meta_ref}. 
+         The top-level list should be named with a vector of \code{data_name}, indicating the bulk-reference pair.
+         The sublists should contain:
+         \itemize{
+         \item{ref_matrix}{A matrix with rows as genes and columns as samples.}
+         \item{meta_ref}{Metadata for reference data, including "SamplesName" (column names of ref_matrix) 
+           and "deconv_clust" (deconvolution clusters, e.g., cell types).}
+         \item{data_name}{A description of the data, formatted as "bulk data name_reference data name".}
+         }
+
+(Optional) A boolean flag that controls the saving of intermediate outputs as separate files. 
+         When set to TRUE, intermediate outputs of the analysis will be saved to files. 
+         If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
+         outputs will not be saved by default.
+
+(Optional) Specifies the ile path where output files should be saved, applicable 
+         only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
+         to save all intermediate output files to the specified location. 
+         If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
+         This parameter should be a valid file system path.
+
+(Optional) A logical flag indicating whether to perform computations in parallel. 
+         Defaults to FALSE.
+
+(Optional) Sets the number of cores for parallel processing when \code{parallel_comp} is TRUE. 
+         Default is 5. Only effective if parallel computing is enabled.
+
+(Optional) A two-dimensional numeric matrix indicating the true cell type proportions 
+         in the samples. The matrix should be formatted with samples as rows and cell types as columns.
+
+(Optional) A dataframe specifying parameters for ensemble learning. 
+         For more details, refer to the \code{get_params} function.
+}
+\examples{
+# Example usage
+# EnsDeconv(count_bulk, ref_list)
+
 }

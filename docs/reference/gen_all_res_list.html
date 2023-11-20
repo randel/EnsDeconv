@@ -64,84 +64,78 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gen_all_res_list</span><span class="op">(</span></span>
 <span>  <span class="va">count_bulk</span>,</span>
-<span>  meta_bulk <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">ref_list</span>,</span>
-<span>  customed_markers <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  markers_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">enableFileSaving</span>,</span>
+<span>  outpath <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  true_frac <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  params <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  outpath <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  parallel_comp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">ncore</span>,</span>
-<span>  rm.duplicated <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  mrkpen <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  dmeths <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="va">ncore</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>count_bulk</dt>
-<dd><p>Bulk gene expression.
-(Required)  Two-dimensional numeric. Must be in gene x sample format. Must implemented <code>as.matrix</code>
-(Optional) In original scale.</p></dd>
+<dd><p>Bulk gene expression data.</p></dd>
 
 
 <dt>ref_list</dt>
-<dd><p>List of of list. Must implement as.list.</p>
-
-<p>(Required) The i-th element of the top-level list is a list of <code>ref_matrix</code>, <code>meta_ref</code>. Names of the top level list should be vector of
-<code>data_name</code>, namely : bulk-reference.</p>
-<ul><li><p>'ref_matrix' Reference matrix.</p></li>
-<li><p>'meta_ref' Meta data for reference matrix..</p></li>
-<li><p>'data_name'Data description. Character in format "Bulk data name_reference data name"</p></li>
-</ul></dd>
+<dd><p>Reference data list.</p></dd>
 
 
-<dt>customed_markers</dt>
-<dd><p>Self-defined markers.
-(Optional) List of one-dimensional string Names of the list should match the deconv_clust.</p></dd>
-
-
-<dt>markers_range</dt>
-<dd><p>Specific for markerpen.
-(Optional)</p></dd>
+<dt>enableFileSaving</dt>
+<dd><p>Enable Saving of Intermediate Output</p></dd>
 
 
 <dt>true_frac</dt>
-<dd><p>True cell type proportions for bulk gene expresseeion.
-(Optional) Two-dimensional numeric. Must be in samples by celltype.</p></dd>
+<dd><p>True cell type proportions.</p></dd>
 
 
 <dt>params</dt>
-<dd><p>Parameters dataframe for ensemble learning, more details could refer to <code>get_params</code>.</p></dd>
-
-
-<dt>outpath</dt>
-<dd><p>(Optional) Path to save output.</p></dd>
+<dd><p>Ensemble learning parameters.</p></dd>
 
 
 <dt>parallel_comp</dt>
-<dd><p>Logical.</p></dd>
+<dd><p>Use parallel computing.</p></dd>
 
 
 <dt>ncore</dt>
-<dd><p>The number of cores to use for parallel execution.</p></dd>
+<dd><p>Number of cores for parallel execution.</p></dd>
 
 
-<dt>rm.duplicated</dt>
-<dd><p>Logical. Remove duplicated genes after maker gene selection. Default: FALSE.</p></dd>
-
-
-<dt>mrkpen</dt>
-<dd><p>Logical. Apply markerpen on marker gene list. Default: FALSE.</p></dd>
-
-
-<dt>data_name</dt>
-<dd><p>Data description.
-(Optional) Only input when you want default params. Character in format "Bulk data name-reference data name"</p></dd>
+<dt>outputPath</dt>
+<dd><p>Destination for Saved Output Files</p></dd>
 
 </dl></div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>The count_bulk parameter expects a two-dimensional numeric matrix in a gene-by-sample format. 
+         It must be convertible using <code>as.matrix</code>. Optionally, the data can be in its original scale.</p>
+<p>The ref_list is a list of lists, where each sublist contains <code>ref_matrix</code> and <code>meta_ref</code>. 
+         The top-level list should be named with a vector of <code>data_name</code>, indicating the bulk-reference pair.
+         The sublists should contain:</p><ul><li><p>ref_matrixA matrix with rows as genes and columns as samples.</p></li>
+<li><p>meta_refMetadata for reference data, including "SamplesName" (column names of ref_matrix) 
+           and "deconv_clust" (deconvolution clusters, e.g., cell types).</p></li>
+<li><p>data_nameA description of the data, formatted as "bulk data name_reference data name".</p></li>
+</ul><p>(Optional) A boolean flag that controls the saving of intermediate outputs as separate files. 
+         When set to TRUE, intermediate outputs of the analysis will be saved to files. 
+         If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
+         outputs will not be saved by default.</p>
+<p>(Optional) Specifies the ile path where output files should be saved, applicable 
+         only if <code>enableFileSaving</code> is set to TRUE. Providing this path directs the function 
+         to save all intermediate output files to the specified location. 
+         If <code>enableFileSaving</code> is FALSE or not set, the value of "outputPath" is ignored.
+         This parameter should be a valid file system path.</p>
+<p>(Optional) A logical flag indicating whether to perform computations in parallel. 
+         Defaults to FALSE.</p>
+<p>(Optional) Sets the number of cores for parallel processing when <code>parallel_comp</code> is TRUE. 
+         Default is 5. Only effective if parallel computing is enabled.</p>
+<p>(Optional) A two-dimensional numeric matrix indicating the true cell type proportions 
+         in the samples. The matrix should be formatted with samples as rows and cell types as columns.</p>
+<p>(Optional) A dataframe specifying parameters for ensemble learning. 
+         For more details, refer to the <code>get_params</code> function.</p>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
