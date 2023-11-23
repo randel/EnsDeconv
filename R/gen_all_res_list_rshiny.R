@@ -1,11 +1,11 @@
 #' This function is used when parallel computing is not called to generate Rshiny progress bar.
 #'
 #' @param count_bulk Bulk gene expression data.
-#' @details The count_bulk parameter expects a two-dimensional numeric matrix in a gene-by-sample format. 
+#'  The count_bulk parameter expects a two-dimensional numeric matrix in a gene-by-sample format. 
 #'          It must be convertible using \code{as.matrix}. Optionally, the data can be in its original scale.
 #'
 #' @param ref_list Reference data list.
-#' @details The ref_list is a list of lists, where each sublist contains \code{ref_matrix} and \code{meta_ref}. 
+#'  The ref_list is a list of lists, where each sublist contains \code{ref_matrix} and \code{meta_ref}. 
 #'          The top-level list should be named with a vector of \code{data_name}, indicating the bulk-reference pair.
 #'          The sublists should contain:
 #'          \itemize{
@@ -16,33 +16,33 @@
 #'          }
 #'          
 #' @param enableFileSaving Enable Saving of Intermediate Output
-#' @details (Optional) A boolean flag that controls the saving of intermediate outputs as separate files. 
+#'  (Optional) A boolean flag that controls the saving of intermediate outputs as separate files. 
 #'          When set to TRUE, intermediate outputs of the analysis will be saved to files. 
 #'          If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
 #'          outputs will not be saved by default.
 #'
 #' @param outputPath Destination for Saved Output Files
-#' @details (Optional) Specifies the ile path where output files should be saved, applicable 
+#'  (Optional) Specifies the ile path where output files should be saved, applicable 
 #'          only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
 #'          to save all intermediate output files to the specified location. 
 #'          If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
 #'          This parameter should be a valid file system path.
 #'          
 #' @param parallel_comp Use parallel computing.
-#' @details (Optional) A logical flag indicating whether to perform computations in parallel. 
+#'  (Optional) A logical flag indicating whether to perform computations in parallel. 
 #'          Defaults to FALSE.
 #'
 #' @param ncore Number of cores for parallel execution.
-#' @details (Optional) Sets the number of cores for parallel processing when \code{parallel_comp} is TRUE. 
+#'  (Optional) Sets the number of cores for parallel processing when \code{parallel_comp} is TRUE. 
 #'          Default is 5. Only effective if parallel computing is enabled.
 #'
 #'
 #' @param true_frac True cell type proportions.
-#' @details (Optional) A two-dimensional numeric matrix indicating the true cell type proportions 
+#'  (Optional) A two-dimensional numeric matrix indicating the true cell type proportions 
 #'          in the samples. The matrix should be formatted with samples as rows and cell types as columns.
 #'
 #' @param params Ensemble learning parameters.
-#' @details (Optional) A dataframe specifying parameters for ensemble learning. 
+#'  (Optional) A dataframe specifying parameters for ensemble learning. 
 #'          For more details, refer to the \code{get_params} function.
 #'
 #' @import parallel

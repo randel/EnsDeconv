@@ -17,59 +17,50 @@ gen_all_res_list_rshiny(
 )
 }
 \arguments{
-\item{count_bulk}{Bulk gene expression data.}
+\item{count_bulk}{Bulk gene expression data.
+The count_bulk parameter expects a two-dimensional numeric matrix in a gene-by-sample format. 
+        It must be convertible using \code{as.matrix}. Optionally, the data can be in its original scale.}
 
-\item{ref_list}{Reference data list.}
+\item{ref_list}{Reference data list.
+The ref_list is a list of lists, where each sublist contains \code{ref_matrix} and \code{meta_ref}. 
+        The top-level list should be named with a vector of \code{data_name}, indicating the bulk-reference pair.
+        The sublists should contain:
+        \itemize{
+        \item{ref_matrix}{A matrix with rows as genes and columns as samples.}
+        \item{meta_ref}{Metadata for reference data, including "SamplesName" (column names of ref_matrix) 
+          and "deconv_clust" (deconvolution clusters, e.g., cell types).}
+        \item{data_name}{A description of the data, formatted as "bulk data name_reference data name".}
+        }}
 
-\item{enableFileSaving}{Enable Saving of Intermediate Output}
+\item{enableFileSaving}{Enable Saving of Intermediate Output
+(Optional) A boolean flag that controls the saving of intermediate outputs as separate files. 
+        When set to TRUE, intermediate outputs of the analysis will be saved to files. 
+        If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
+        outputs will not be saved by default.}
 
-\item{true_frac}{True cell type proportions.}
+\item{true_frac}{True cell type proportions.
+(Optional) A two-dimensional numeric matrix indicating the true cell type proportions 
+        in the samples. The matrix should be formatted with samples as rows and cell types as columns.}
 
-\item{params}{Ensemble learning parameters.}
+\item{params}{Ensemble learning parameters.
+(Optional) A dataframe specifying parameters for ensemble learning. 
+        For more details, refer to the \code{get_params} function.}
 
-\item{parallel_comp}{Use parallel computing.}
+\item{parallel_comp}{Use parallel computing.
+(Optional) A logical flag indicating whether to perform computations in parallel. 
+        Defaults to FALSE.}
 
-\item{ncore}{Number of cores for parallel execution.}
+\item{ncore}{Number of cores for parallel execution.
+(Optional) Sets the number of cores for parallel processing when \code{parallel_comp} is TRUE. 
+        Default is 5. Only effective if parallel computing is enabled.}
 
-\item{outputPath}{Destination for Saved Output Files}
+\item{outputPath}{Destination for Saved Output Files
+(Optional) Specifies the ile path where output files should be saved, applicable 
+        only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
+        to save all intermediate output files to the specified location. 
+        If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
+        This parameter should be a valid file system path.}
 }
 \description{
 This function is used when parallel computing is not called to generate Rshiny progress bar.
-}
-\details{
-The count_bulk parameter expects a two-dimensional numeric matrix in a gene-by-sample format. 
-         It must be convertible using \code{as.matrix}. Optionally, the data can be in its original scale.
-
-The ref_list is a list of lists, where each sublist contains \code{ref_matrix} and \code{meta_ref}. 
-         The top-level list should be named with a vector of \code{data_name}, indicating the bulk-reference pair.
-         The sublists should contain:
-         \itemize{
-         \item{ref_matrix}{A matrix with rows as genes and columns as samples.}
-         \item{meta_ref}{Metadata for reference data, including "SamplesName" (column names of ref_matrix) 
-           and "deconv_clust" (deconvolution clusters, e.g., cell types).}
-         \item{data_name}{A description of the data, formatted as "bulk data name_reference data name".}
-         }
-
-(Optional) A boolean flag that controls the saving of intermediate outputs as separate files. 
-         When set to TRUE, intermediate outputs of the analysis will be saved to files. 
-         If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
-         outputs will not be saved by default.
-
-(Optional) Specifies the ile path where output files should be saved, applicable 
-         only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
-         to save all intermediate output files to the specified location. 
-         If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
-         This parameter should be a valid file system path.
-
-(Optional) A logical flag indicating whether to perform computations in parallel. 
-         Defaults to FALSE.
-
-(Optional) Sets the number of cores for parallel processing when \code{parallel_comp} is TRUE. 
-         Default is 5. Only effective if parallel computing is enabled.
-
-(Optional) A two-dimensional numeric matrix indicating the true cell type proportions 
-         in the samples. The matrix should be formatted with samples as rows and cell types as columns.
-
-(Optional) A dataframe specifying parameters for ensemble learning. 
-         For more details, refer to the \code{get_params} function.
 }
