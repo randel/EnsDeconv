@@ -41,16 +41,16 @@ deconv_method_switch <- function(method_name, to_deconv, ref_matrix, meta_ref,pu
         markers <- rownames(to_deconv)
       }else if(!method_name %in% c("deconf","ssFrobenius","ssKL","DSA")){
         method_name_new <-ifelse(method_name %in% c("dtangle_scRNA","dtangle_GEP","hspe"),"dtangle",method_name)
-        markers <- switch(method_name_new, dtangle = lapply(markers, function(x){
+        markers <- lapply(markers, function(x){
           if(any(markers[[1]]%in% rownames(to_deconv))){
             x
           }else{
            return(rownames(to_deconv)[x])
           }
-        } ), markers)
-        to_deconv <- to_deconv[unlist(markers), ]
-        sig_matrix <- sig_matrix[unlist(markers), ]
-        ref_matrix <- ref_matrix[unlist(markers), ]
+        } )
+        to_deconv <- to_deconv[unlist(unname(markers)), ]
+        sig_matrix <- sig_matrix[unlist(unname(markers)), ]
+        ref_matrix <- ref_matrix[unlist(unname(markers)), ]
         markers_toast <- markers
         
 
