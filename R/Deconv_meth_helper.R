@@ -45,7 +45,8 @@ deconv_method_switch <- function(method_name, to_deconv, ref_matrix, meta_ref,pu
           if(any(markers[[1]]%in% rownames(to_deconv))){
             x
           }else{
-           return(rownames(to_deconv)[x])
+            x = intersect(names(x),rownames(to_deconv))
+           return(x)
           }
         } )
         to_deconv <- to_deconv[unlist(unname(markers)), ]
