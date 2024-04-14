@@ -8,6 +8,7 @@ EnsDeconv(
   count_bulk,
   ref_list,
   enableFileSaving = FALSE,
+  exportRef = FALSE,
   outpath = NULL,
   parallel_comp = FALSE,
   ncore = 5,
@@ -38,6 +39,14 @@ The ref_list is a list of lists, where each sublist contains \code{ref_matrix} a
         If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
         outputs will not be saved by default.}
 
+\item{exportRef}{Enable output of reference generated per scenario 
+(Optional) A boolean flag that controls the output of reference generated per scenario . 
+        When set to TRUE, reference generated per scenario will be output. 
+        If not explicitly set, this parameter defaults to FALSE, meaning that the results will not contain
+        references per scenario.}
+
+\item{outpath}{}
+
 \item{parallel_comp}{Use parallel computing.
 (Optional) A logical flag indicating whether to perform computations in parallel. 
         Defaults to FALSE.}
@@ -54,12 +63,7 @@ The ref_list is a list of lists, where each sublist contains \code{ref_matrix} a
 (Optional) A dataframe specifying parameters for ensemble learning. 
         For more details, refer to the \code{get_params} function.}
 
-\item{outputPath}{Destination for Saved Output Files
-(Optional) Specifies the ile path where output files should be saved, applicable 
-        only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
-        to save all intermediate output files to the specified location. 
-        If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
-        This parameter should be a valid file system path.}
+\item{inrshiny}{}
 }
 \value{
 A list containing two elements:

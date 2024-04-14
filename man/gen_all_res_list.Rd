@@ -8,6 +8,7 @@ gen_all_res_list(
   count_bulk,
   ref_list,
   enableFileSaving,
+  exportRef = FALSE,
   outpath = NULL,
   true_frac = NULL,
   params = NULL,
@@ -37,6 +38,14 @@ The ref_list is a list of lists, where each sublist contains \code{ref_matrix} a
         If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
         outputs will not be saved by default.}
 
+\item{exportRef}{Enable output of reference generated per scenario 
+(Optional) A boolean flag that controls the output of reference generated per scenario . 
+        When set to TRUE, reference generated per scenario will be output. 
+        If not explicitly set, this parameter defaults to FALSE, meaning that the results will not contain
+        references per scenario.}
+
+\item{outpath}{}
+
 \item{true_frac}{True cell type proportions.
 (Optional) A two-dimensional numeric matrix indicating the true cell type proportions 
         in the samples. The matrix should be formatted with samples as rows and cell types as columns.}
@@ -52,13 +61,6 @@ The ref_list is a list of lists, where each sublist contains \code{ref_matrix} a
 \item{ncore}{Number of cores for parallel execution.
 (Optional) Sets the number of cores for parallel processing when \code{parallel_comp} is TRUE. 
         Default is 5. Only effective if parallel computing is enabled.}
-
-\item{outputPath}{Destination for Saved Output Files
-(Optional) Specifies the ile path where output files should be saved, applicable 
-        only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
-        to save all intermediate output files to the specified location. 
-        If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
-        This parameter should be a valid file system path.}
 }
 \description{
 This function is used when there are multiple references.
