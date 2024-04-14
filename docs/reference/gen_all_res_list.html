@@ -66,6 +66,7 @@
 <span>  <span class="va">count_bulk</span>,</span>
 <span>  <span class="va">ref_list</span>,</span>
 <span>  <span class="va">enableFileSaving</span>,</span>
+<span>  exportRef <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  outpath <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  true_frac <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  params <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -101,6 +102,18 @@ The ref_list is a list of lists, where each sublist contains <code>ref_matrix</c
         outputs will not be saved by default.</p></dd>
 
 
+<dt>exportRef</dt>
+<dd><p>Enable output of reference generated per scenario 
+(Optional) A boolean flag that controls the output of reference generated per scenario . 
+        When set to TRUE, reference generated per scenario will be output. 
+        If not explicitly set, this parameter defaults to FALSE, meaning that the results will not contain
+        references per scenario.</p></dd>
+
+
+<dt>outpath</dt>
+<dd></dd>
+
+
 <dt>true_frac</dt>
 <dd><p>True cell type proportions.
 (Optional) A two-dimensional numeric matrix indicating the true cell type proportions 
@@ -123,15 +136,6 @@ The ref_list is a list of lists, where each sublist contains <code>ref_matrix</c
 <dd><p>Number of cores for parallel execution.
 (Optional) Sets the number of cores for parallel processing when <code>parallel_comp</code> is TRUE. 
         Default is 5. Only effective if parallel computing is enabled.</p></dd>
-
-
-<dt>outputPath</dt>
-<dd><p>Destination for Saved Output Files
-(Optional) Specifies the ile path where output files should be saved, applicable 
-        only if <code>enableFileSaving</code> is set to TRUE. Providing this path directs the function 
-        to save all intermediate output files to the specified location. 
-        If <code>enableFileSaving</code> is FALSE or not set, the value of "outputPath" is ignored.
-        This parameter should be a valid file system path.</p></dd>
 
 </dl></div>
 

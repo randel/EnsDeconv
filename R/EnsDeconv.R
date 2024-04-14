@@ -71,7 +71,7 @@ EnsDeconv <- function(count_bulk,ref_list,enableFileSaving = FALSE,exportRef = F
 if(inrshiny){
   allgene_res = gen_all_res_list_rshiny(count_bulk = as.matrix(count_bulk), ref_list = ref_list,enableFileSaving = enableFileSaving,exportRef = exportRef, outpath =outpath, true_frac =true_frac, ncore =ncore, parallel_comp = parallel_comp, params = params)
 }else{
-   allgene_res = gen_all_res_list(count_bulk = as.matrix(count_bulk), ref_list = ref_list,enableFileSaving = enableFileSaving,exportRef = exportRef,,outpath =outpath,  true_frac =true_frac, ncore =ncore, parallel_comp = parallel_comp, params = params)
+   allgene_res = gen_all_res_list(count_bulk = as.matrix(count_bulk), ref_list = ref_list,enableFileSaving = enableFileSaving,exportRef = exportRef,outpath =outpath,  true_frac =true_frac, ncore =ncore, parallel_comp = parallel_comp, params = params)
 }
   # Check available scenarios
   ind = sapply(allgene_res, function(x){
