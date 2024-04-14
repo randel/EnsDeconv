@@ -20,14 +20,14 @@
 #'          When set to TRUE, intermediate outputs of the analysis will be saved to files. 
 #'          If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
 #'          outputs will not be saved by default.
-#'
-#' @param outputPath Destination for Saved Output Files
-#'  (Optional) Specifies the ile path where output files should be saved, applicable 
-#'          only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
-#'          to save all intermediate output files to the specified location. 
-#'          If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
-#'          This parameter should be a valid file system path.
 #'          
+#' @param exportRef Enable output of reference generated per scenario 
+#'  (Optional) A boolean flag that controls the output of reference generated per scenario . 
+#'          When set to TRUE, reference generated per scenario will be output. 
+#'          If not explicitly set, this parameter defaults to FALSE, meaning that the results will not contain
+#'          references per scenario.
+#'         
+#'
 #' @param parallel_comp Use parallel computing.
 #'  (Optional) A logical flag indicating whether to perform computations in parallel. 
 #'          Defaults to FALSE.
@@ -44,6 +44,7 @@
 #' @param params Ensemble learning parameters.
 #'  (Optional) A dataframe specifying parameters for ensemble learning. 
 #'          For more details, refer to the \code{get_params} function.
+#' @param outpath 
 #'
 #' @import parallel
 #' @importFrom progress progress_bar
@@ -59,7 +60,7 @@
 #' @import glmnet
 #' @export
 #'
-gen_all_res_list = function(count_bulk,ref_list,enableFileSaving,
+gen_all_res_list = function(count_bulk,ref_list,enableFileSaving,exportRef = FALSE,
                             outpath = NULL,true_frac = NULL,params = NULL,parallel_comp = FALSE,ncore){
   if(enableFileSaving){
     if(!is.null(outpath)){
@@ -130,7 +131,7 @@ gen_all_res_list = function(count_bulk,ref_list,enableFileSaving,
 
         # analyze data
         a <- analyze(p$Marker.Method,q =  0,n_markers = p$n_markers, gamma = 1,dmeths = p$dmeths,
-                         normalize = p$Normalize, datasets = Dataset,scale = p$Scale)
+                         normalize = p$Normalize, datasets = Dataset,scale = p$Scale,exportRef = exportRef)
         if(enableFileSaving){
           if(!is.null(outpath)){
             dir.create(paste0(outpath,p$data_name), showWarnings = FALSE, recursive = TRUE)
@@ -163,7 +164,7 @@ gen_all_res_list = function(count_bulk,ref_list,enableFileSaving,
 
 
         a <- analyze(p$Marker.Method,q =  p$Quantile,n_markers = p$n_markers, gamma = p$gamma,dmeths = p$dmeths,
-                         normalize = p$Normalize, datasets = Dataset,scale = p$Scale)
+                         normalize = p$Normalize, datasets = Dataset,scale = p$Scale,exportRef = exportRef)
       gc()
       res_all[[i]] = list(a = a, p = p)
       names(res_all)[i] =  paste0(params[i, ], collapse = "_")

@@ -1,12 +1,13 @@
 #This function is intended to prepare data markers for deconvolution
 ############ analyze_dset
-analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normalize,scale) {
+analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normalize,scale,  exportRef) {
 
   p_hat <- list()
   p_hat_bc <- list()
   timing_bc <- list()
   timing <- list()
   mark_list <- list()
+  signature <- list()
 
   data_type <- dset$annotation$data_type
 
@@ -117,14 +118,14 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
     for (mth in dmeths) {
       dcnv_out <-run_deconv_method(method_name = mth,to_deconv= dset$data$data_t,ref_matrix = dset$data$data_c,sig_matrix = sig_matrix,meta_ref = dset$data$meta_ref,pure_samples = pure_samples,markers= mrks,
-                                   data_type = data_type , verb = verb, marker_method = method,batchcorrec = F,scale = scale)
+                                   data_type = data_type , verb = verb, marker_method = method,batchcorrec = F,scale = scale,exportRef = exportRef)
 
       p_hat[[mth]] <- dcnv_out$estimate
       timing[[mth]] <- dcnv_out$time
-
+      signature[[mth]] <- dcnv_out$sig
     }
 
-    return(list(n_choose = n_choose, p_hat = p_hat, p_truth = p_truth, timing = timing, markers=mrks,markers_old = mrks_old))
+    return(list(n_choose = n_choose, p_hat = p_hat, p_truth = p_truth, timing = timing, markers=mrks,markers_old = mrks_old, signature = signature))
   
 
 
@@ -134,14 +135,14 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
 
 analyze <- function(method, q, n_markers,gamma, dmeths = NULL, verb = TRUE, normalize = TRUE,scale = scale,
-                    datasets = NULL) {
+                    datasets = NULL,exportRef = FALSE) {
   sig <- paste(method, q, gamma)
   updt(paste(sig, "Starting."), init = TRUE)
 
   start_time <- Sys.time()
 
   output <- lapply(datasets, function(dset) analyze_dset(dset, method =method, q = q,n_markers =n_markers, gamma=gamma,
-                                                         dmeths = dmeths, verb = verb, normalize = normalize,scale = scale ))
+                                                         dmeths = dmeths, verb = verb, normalize = normalize,scale = scale,  exportRef = exportRef))
   end_time <- Sys.time()
 
 
@@ -151,8 +152,12 @@ analyze <- function(method, q, n_markers,gamma, dmeths = NULL, verb = TRUE, norm
     markers <- lapply(output, "[[", "markers")
     markers_old <- lapply(output, "[[", "markers_old")
     timing <- lapply(output, "[[", "timing")
-
-    return(list(p_hat = p_hat, p_truth = p_truth, n = n_choose, time = timing,markers=markers,markers_old=markers_old,all_time =  end_time - start_time))
+    if(exportRef){
+      Sigs <- lapply(output, "[[", "signature")
+    }else{
+      Sigs <- NULL
+    }
+    return(list(p_hat = p_hat, p_truth = p_truth, n = n_choose, time = timing,markers=markers,markers_old=markers_old,all_time =  (end_time - start_time),Sigs = Sigs))
   
 
 

@@ -1,22 +1,26 @@
 ############## run_deconv_method ############
-run_deconv_method <- function(method_name,sig_matrix, to_deconv,ref_matrix= NULL,meta_ref = NULL, pure_samples,pure, markers,data_type, verb,data_prepossessed =FALSE,marker_method,batchcorrec = FALSE,scale) {
+run_deconv_method <- function(method_name,sig_matrix, to_deconv,ref_matrix= NULL,meta_ref = NULL, pure_samples,pure,
+                              markers,data_type, verb,data_prepossessed =FALSE,marker_method,batchcorrec = FALSE,scale, exportRef) {
   NA_array <- array(NA, c(ncol(to_deconv), length(markers)))
   out <- tryCatch({
-    deconv_method_switch(method_name = method_name, to_deconv = to_deconv,ref_matrix = ref_matrix,meta_ref = meta_ref,  pure_samples = pure_samples, markers = markers,verb = verb,data_prepossessed = data_prepossessed,marker_method = marker_method,batchcorrec = batchcorrec,scale = scale,sig_matrix = sig_matrix)
+    deconv_method_switch(method_name = method_name, to_deconv = to_deconv,ref_matrix = ref_matrix,meta_ref = meta_ref,  pure_samples = pure_samples,
+                         markers = markers,verb = verb,data_prepossessed = data_prepossessed,marker_method = marker_method,batchcorrec = batchcorrec,
+                         scale = scale,sig_matrix = sig_matrix,exportRef= exportRef)
   }, error = function(cond) {
     message(paste0(">>>Failed ", method_name, "."))
     cat(paste("Caught", cond))
-    return(list(out = NA_array, time = NA))
+    return(list(out = NA_array, time = NA,sig = NA))
   })
 
-  return(list(estimate = out$phat, time = out$tme))
+  return(list(estimate = out$phat, time = out$tme,sig = out$sig))
 
 }
 
 
 ############# deconv_method_switch ###########################
 
-deconv_method_switch <- function(method_name, to_deconv, ref_matrix, meta_ref,pure_samples, markers, verb, sc.eset.list, data_prepossessed, marker_method,batchcorrec,scale,sig_matrix) {
+deconv_method_switch <- function(method_name, to_deconv, ref_matrix, meta_ref,pure_samples, markers, verb, 
+                                 sc.eset.list, data_prepossessed, marker_method,batchcorrec,scale,sig_matrix,exportRef) {
 
 
   pure <- unlist(pure_samples)
@@ -119,8 +123,12 @@ deconv_method_switch <- function(method_name, to_deconv, ref_matrix, meta_ref,pu
 
   output <- output/rowSums(output) #
   output[output  < 0] <- 0
-
-  return(list(phat = output, tme = tme))
+  if(exportRef){
+    sig <- sig_matrix
+  }else{
+    sig <- NA
+  }
+  return(list(phat = output, tme = tme, sig = sig))
 }
 
 

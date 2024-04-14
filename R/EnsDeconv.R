@@ -22,14 +22,13 @@
 #'          When set to TRUE, intermediate outputs of the analysis will be saved to files. 
 #'          If not explicitly set, this parameter defaults to FALSE, meaning that intermediate 
 #'          outputs will not be saved by default.
-#'
-#' @param outputPath Destination for Saved Output Files
-#'  (Optional) Specifies the ile path where output files should be saved, applicable 
-#'          only if \code{enableFileSaving} is set to TRUE. Providing this path directs the function 
-#'          to save all intermediate output files to the specified location. 
-#'          If \code{enableFileSaving} is FALSE or not set, the value of "outputPath" is ignored.
-#'          This parameter should be a valid file system path.
 #'          
+#' @param exportRef Enable output of reference generated per scenario 
+#'  (Optional) A boolean flag that controls the output of reference generated per scenario . 
+#'          When set to TRUE, reference generated per scenario will be output. 
+#'          If not explicitly set, this parameter defaults to FALSE, meaning that the results will not contain
+#'          references per scenario.
+#'
 #' @param parallel_comp Use parallel computing.
 #'  (Optional) A logical flag indicating whether to perform computations in parallel. 
 #'          Defaults to FALSE.
@@ -47,6 +46,8 @@
 #'  (Optional) A dataframe specifying parameters for ensemble learning. 
 #'          For more details, refer to the \code{get_params} function.
 #'
+#' @param outpath 
+#' @param inrshiny 
 #'
 #' @importFrom matrixcalc frobenius.norm
 #' @importFrom quadprog solve.QP
@@ -64,13 +65,13 @@
 
 
 
-EnsDeconv <- function(count_bulk,ref_list,enableFileSaving = FALSE,outpath = NULL,parallel_comp = FALSE,ncore =5,
+EnsDeconv <- function(count_bulk,ref_list,enableFileSaving = FALSE,exportRef = FALSE,outpath = NULL,parallel_comp = FALSE,ncore =5,
                       true_frac = NULL,params = NULL,inrshiny = FALSE){
 
 if(inrshiny){
-  allgene_res = gen_all_res_list_rshiny(count_bulk = as.matrix(count_bulk), ref_list = ref_list,enableFileSaving = enableFileSaving, outpath =outpath, true_frac =true_frac, ncore =ncore, parallel_comp = parallel_comp, params = params)
+  allgene_res = gen_all_res_list_rshiny(count_bulk = as.matrix(count_bulk), ref_list = ref_list,enableFileSaving = enableFileSaving,exportRef = exportRef, outpath =outpath, true_frac =true_frac, ncore =ncore, parallel_comp = parallel_comp, params = params)
 }else{
-   allgene_res = gen_all_res_list(count_bulk = as.matrix(count_bulk), ref_list = ref_list,enableFileSaving = enableFileSaving,outpath =outpath,  true_frac =true_frac, ncore =ncore, parallel_comp = parallel_comp, params = params)
+   allgene_res = gen_all_res_list(count_bulk = as.matrix(count_bulk), ref_list = ref_list,enableFileSaving = enableFileSaving,exportRef = exportRef,,outpath =outpath,  true_frac =true_frac, ncore =ncore, parallel_comp = parallel_comp, params = params)
 }
   # Check available scenarios
   ind = sapply(allgene_res, function(x){
