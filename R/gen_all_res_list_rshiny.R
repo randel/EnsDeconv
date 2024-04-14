@@ -60,7 +60,7 @@
 #' @import glmnet
 #' @export
 #'
-gen_all_res_list_rshiny = function(count_bulk,meta_bulk = NULL,ref_list,enableFileSaving = FALSE,
+gen_all_res_list_rshiny = function(count_bulk,meta_bulk = NULL,ref_list,enableFileSaving = FALSE,exportRef = FALSE
                                    outpath = NULL,true_frac = NULL,params = NULL,parallel_comp = FALSE,ncore){
   if(enableFileSaving){
     if(!is.null(outpath)){
@@ -91,7 +91,7 @@ gen_all_res_list_rshiny = function(count_bulk,meta_bulk = NULL,ref_list,enableFi
 
 
       a <- analyze(p$Marker.Method,q =  p$Quantile,n_markers = p$n_markers, gamma = p$gamma,dmeths = p$dmeths,
-                   normalize = p$Normalize, datasets = Dataset,scale = p$Scale,enableFileSaving = enableFileSaving)
+                   normalize = p$Normalize, datasets = Dataset,scale = p$Scale,enableFileSaving = enableFileSaving, exportRef = exportRef)
       gc()
       res_all[[i]] = list(a = a, p = p)
       names(res_all)[i] =  paste0(params[i, ], collapse = "_")
