@@ -60,7 +60,7 @@
 #' @import glmnet
 #' @export
 #'
-gen_all_res_list_rshiny = function(count_bulk,meta_bulk = NULL,ref_list,enableFileSaving = FALSE,exportRef = FALSE
+gen_all_res_list_rshiny = function(count_bulk,meta_bulk = NULL,ref_list,enableFileSaving = FALSE,exportRef = FALSE,
                                    outpath = NULL,true_frac = NULL,params = NULL,parallel_comp = FALSE,ncore){
   if(enableFileSaving){
     if(!is.null(outpath)){
