@@ -19,7 +19,7 @@ https://randel.github.io/EnsDeconv/
 
 Shiny app
 -----------------
-https://github.com/randel/EnsDeconv_shiny
+https://shiny.crc.pitt.edu/ensdeconv/
 
 
 ## Reference
