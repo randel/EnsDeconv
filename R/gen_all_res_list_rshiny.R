@@ -83,15 +83,32 @@ gen_all_res_list_rshiny = function(count_bulk,meta_bulk = NULL,ref_list,enableFi
   on.exit(progress$close())
 
   progress$set(message = "Running scenarios", value = 0)
+  exclude <- c()
     for(i in 1:nrow(params)){
       progress$inc(1/nrow(params), detail = paste("Doing part", i))
       p = params[i,]
+      if (p$dmeths %in% exclude) {
+        res_all[[i]] <- NULL  # if demths is in exclude list，skip
+        warning(sprintf("part %s is ignored due to method time out", i))
+        next
+      }
       Dataset = get_input_ensemble(count_bulk = count_bulk, ref_matrix = ref_list[[p$data_name]]$ref_matrix, meta_bulk = meta_bulk,
                                    meta_ref = ref_list[[p$data_name]]$meta_ref, true_frac = true_frac,params = p)
 
 
-      a <- analyze(p$Marker.Method,q =  p$Quantile,n_markers = p$n_markers, gamma = p$gamma,dmeths = p$dmeths,
-                   normalize = p$Normalize, datasets = Dataset,scale = p$Scale, exportRef = exportRef)
+      # recording time
+      time_taken <- system.time({
+        a <- try(analyze(p$Marker.Method, q = p$Quantile, n_markers = p$n_markers, gamma = p$gamma, dmeths = p$dmeths,
+                         normalize = p$Normalize, datasets = Dataset, scale = p$Scale, exportRef = exportRef))
+      })
+      
+      if (inherits(a, "try-error") || time_taken[3] > p$time_limit) {
+        warning(sprintf("Method %s time out and is ignored", p$dmeths))
+        exclude <- c(exclude, p$dmeths)  # if this method time out in one scenario，blacklist it
+        res_all[[i]] <- NULL  
+        next  # skip if time out
+      }
+      
       gc()
       res_all[[i]] = list(a = a, p = p)
       names(res_all)[i] =  paste0(params[i, ], collapse = "_")
@@ -104,6 +121,9 @@ gen_all_res_list_rshiny = function(count_bulk,meta_bulk = NULL,ref_list,enableFi
 
     }
 
+  # filter NULL
+  res_all <- res_all[!sapply(res_all, is.null)]
+  
   if(enableFileSaving){
     if(!is.null(outpath)){
       saveRDS(res_all,paste0(outpath,"Res_list.rds"))

@@ -50,12 +50,13 @@
 #'
 #' @param teqc Logical. Use same normalization between bulk data and reference data. Default: TRUE.
 #' @param batchcorrec Logical. Apply batch correction or not. Default: FALSE
+#' @param time_limit numeric.Time limit of single deconvolution method.
 #' @return  a data.frame that each row corresponding to specific scenario
 #'
 #' @import dplyr
 #' @export
 
-get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormalization = c("CPM","none","TPM","TMM","QN"), Scale = c("log","linear"), data_type, data_name, n_markers = 50, Marker.Method = c("t","wilcox","combined","none","p.value","regression"),dmeths = NULL,teqc = TRUE,batchcorrec =FALSE){
+get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormalization = c("CPM","none","TPM","TMM","QN"), Scale = c("log","linear"), data_type, data_name, n_markers = 50, Marker.Method = c("t","wilcox","combined","none","p.value","regression"),dmeths = NULL,teqc = TRUE,batchcorrec =FALSE,time_limit=300){
   require(dplyr)
    if(is.null(dmeths)){
     if(data_type == "singlecell-rna"){
@@ -86,12 +87,10 @@ get_params = function(TNormalization = c("CPM","none","TPM","TMM","QN"),CNormali
 
   #params$batchcorrec = batchcorrec
 
-
   params =  params%>%
     filter(!(Scale == "linear" & dmeths %in% c("dtangle","hspe"))) %>%
     filter(!(Scale == "log" & dmeths %in% c("ICeDT","BisqueRNA","MuSiC"))) %>%
     filter(!(TNormalization == "QN" & dmeths == "GEDIT"))
-
-
+  params$time_limit<-time_limit
   return(params)
 }
