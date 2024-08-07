@@ -14,7 +14,8 @@ get_params(
   Marker.Method = c("t", "wilcox", "combined", "none", "p.value", "regression"),
   dmeths = NULL,
   teqc = TRUE,
-  batchcorrec = FALSE
+  batchcorrec = FALSE,
+  time_limit = 300
 )
 }
 \arguments{
@@ -64,6 +65,8 @@ For microarray deconvolution, EnsDeconv will not run "MuSiC" and "BisqueRNA".}
 \item{teqc}{Logical. Use same normalization between bulk data and reference data. Default: TRUE.}
 
 \item{batchcorrec}{Logical. Apply batch correction or not. Default: FALSE}
+
+\item{time_limit}{numeric.Time limit of single deconvolution method.}
 
 \item{Normalization}{normalization methods for bulk gene expression and reference gene expression
 

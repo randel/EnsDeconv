@@ -1,0 +1,40 @@
+---
+title: "prepare"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{prepare}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+This vignette demonstrates how to use the `prepare` function from the `EnsDeconv` package.
+
+```{r setup, include=FALSE}
+# Suppress package startup messages
+suppressPackageStartupMessages({
+  library(EnsDeconv)
+  library(Seurat)
+})
+```
+
+# Load required packages
+```{r}
+library(EnsDeconv);
+library(Seurat);
+```
+# Load example data
+```{r}
+data(seurat_obj)
+data(bulk_data)
+```
+# Prepare data for analysis
+```{r}
+result <- prepare(seurat_obj, bulk_data)
+```
+# Display result structure
+```{r}
+str(result)
+```
+
