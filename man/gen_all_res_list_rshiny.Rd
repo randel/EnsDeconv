@@ -9,6 +9,7 @@ gen_all_res_list_rshiny(
   meta_bulk = NULL,
   ref_list,
   enableFileSaving = FALSE,
+  exportRef = FALSE,
   outpath = NULL,
   true_frac = NULL,
   params = NULL,
