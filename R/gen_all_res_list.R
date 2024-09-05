@@ -78,35 +78,43 @@ gen_all_res_list = function(count_bulk,ref_list,enableFileSaving,exportRef = FAL
   
   ref_list = lapply(ref_list, ref_prep,count_bulk = count_bulk)
   
-  res_all = list()
-  exclude <- c()
-  if(parallel_comp){
+  res_all <- list()  
+  checked <- list()  
+  exclude <- c() 
+  
+  if (parallel_comp) {
     unique_methods <- unique(params$dmeths)
     testparams <- do.call(rbind, lapply(unique_methods, function(method) {
       params[params$dmeths == method, ][1, ]
     }))
+    
     method_times <- c()
     for (i in 1:nrow(testparams)) {
       p <- testparams[i, ]
       Dataset <- get_input_ensemble(count_bulk = count_bulk, ref_matrix = ref_list[[p$data_name]]$ref_matrix, meta_bulk = NULL,
                                     meta_ref = ref_list[[p$data_name]]$meta_ref, true_frac = true_frac, params = p)
+      
       time_taken <- system.time({
         a <- try(analyze(p$Marker.Method, q = p$Quantile, n_markers = p$n_markers, gamma = p$gamma, dmeths = p$dmeths,
                          normalize = p$Normalize, datasets = Dataset, scale = p$Scale, exportRef = exportRef))
       })
       
       if (inherits(a, "try-error") || time_taken[3] > p$time_limit) {
-        warning(sprintf("Method %s timed out and is ignored", p$dmeths))
+        warning(sprintf("Method %s timed out and is ignored\n", p$dmeths))
         exclude <- c(exclude, p$dmeths)
+        next
       } else {
         method_times <- c(method_times, time_taken[3])
+        checked[[paste(p$data_type,p$dmeths, sep="_")]] <- list(a = a, p = p,ensemble = 0)
       }
     }
+    
     params <- params[!params$dmeths %in% exclude, ]
     avg_time_per_method <- mean(method_times)
-    estimated_total_time <- avg_time_per_method * nrow(params) / ncore
+    estimated_total_time <- avg_time_per_method * ceiling(nrow(params) / ncore)
     message(sprintf("Estimated total time for parallel execution: %.2f seconds (%.2f minutes)", 
                     estimated_total_time, estimated_total_time / 60))
+    
     pb <- progress_bar$new(
       format = "Current : :current [:bar] :elapsed | percent: :percent",
       total = nrow(params),
@@ -116,70 +124,64 @@ gen_all_res_list = function(count_bulk,ref_list,enableFileSaving,exportRef = FAL
     
     progress_letter <- rep(1:10, 10)  # token reported in progress bar
     
-    # allowing progress bar to be used in foreach -----------------------------
     progress <- function(n){
       pb$tick(tokens = list(letter = progress_letter[n]))
     }
     
-    
     opts <- list(progress = progress)
     
     os = get_os()
-    if(os == "windows"){
+    if (os == "windows") {
       cl = makeCluster(ncore, outfile="")
       registerDoSNOW(cl)
       clusterCall(cl, function(x) .libPaths(x), .libPaths())
-    }else if(os == "osx"){
+    } else if (os == "osx") {
       cl = makeCluster(ncore, setup_strategy = "sequential")
       registerDoSNOW(cl)
       clusterCall(cl, function(x) .libPaths(x), .libPaths())
-    }else if(os == "Linux"){
-      cl <- makeCluster(ncore,type = "SOCK")
+    } else if (os == "Linux") {
+      cl <- makeCluster(ncore, type = "SOCK")
       registerDoSNOW(cl)
     }
-    
-    
-    res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass',
-                      .packages = c("nnls","xbioc","Biobase","scran","preprocessCore","glmnet","edgeR","Seurat","dplyr","sparseMatrixStats")) %dopar% {
-                        #res_all = foreach(i = 1:nrow(params),.options.snow = opts, .errorhandling='pass') %dopar% {
-                        
-                        p = params[i,]
-                        # logdir <- paste0(outpath,p$data_name,"/Analysis/")
-                        # dir.create(logdir, showWarnings = FALSE, recursive = TRUE)
-                        # capture.output({
-                        p = params[i,]
-                        
-                        # Prepare data sets
-                        Dataset = get_input_ensemble(count_bulk = count_bulk, ref_matrix = ref_list[[p$data_name]]$ref_matrix, meta_bulk = NULL,
-                                                     meta_ref = ref_list[[p$data_name]]$meta_ref, true_frac = true_frac,params = p)
-                        
-                        
-                        # analyze data
-                        a <- analyze(p$Marker.Method,q =  0,n_markers = p$n_markers, gamma = 1,dmeths = p$dmeths,
-                                     normalize = p$Normalize, datasets = Dataset,scale = p$Scale,exportRef = exportRef)
-                        if(enableFileSaving){
-                          if(!is.null(outpath)){
-                            dir.create(paste0(outpath,p$data_name), showWarnings = FALSE, recursive = TRUE)
-                            dir.create(paste0(outpath,p$data_name,"/cases/"), showWarnings = FALSE, recursive = TRUE)
-                            saveRDS(list(a = a, p = p), file = paste0(outpath,p$data_name,"/cases/", paste0(params[i, ], collapse = "_"),  ".rds"))
-                            
-                          }
-                        }
-                        
-                        base::message(base::sprintf("Remaining %i ", i),
-                                      "scenarios.")
-                        # }, file = paste0(logdir, "log", i, ".txt"))
-                        gc()
-                        res_list= list(a = a, p = p,ensemble = 0)
-                        
-                        return(res_list)
-                      }
+    res_all_parallel = foreach(i = 1:nrow(params), .options.snow = opts, .errorhandling='pass',
+                               .packages = c("nnls", "xbioc", "Biobase", "scran", "preprocessCore", "glmnet", "edgeR", "Seurat", "dplyr", "sparseMatrixStats")) %dopar% {
+                                 p = params[i, ]
+                                 
+                                 
+                                 if (any(apply(testparams, 1, function(x) all(x == params[i, ])))) {
+                                   
+                                   return(checked[[paste(p$data_type,p$dmeths, sep="_")]])
+                                 }
+                                 else{
+                                   
+                                   Dataset = get_input_ensemble(count_bulk = count_bulk, ref_matrix = ref_list[[p$data_name]]$ref_matrix, meta_bulk = NULL,
+                                                                meta_ref = ref_list[[p$data_name]]$meta_ref, true_frac = true_frac, params = p)
+                                   
+                                   
+                                   a <- analyze(p$Marker.Method, q = 0, n_markers = p$n_markers, gamma = 1, dmeths = p$dmeths,
+                                                normalize = p$Normalize, datasets = Dataset, scale = p$Scale, exportRef = exportRef)
+                                   
+                                   if (enableFileSaving) {
+                                     if (!is.null(outpath)) {
+                                       dir.create(paste0(outpath, p$data_name), showWarnings = FALSE, recursive = TRUE)
+                                       dir.create(paste0(outpath, p$data_name, "/cases/"), showWarnings = FALSE, recursive = TRUE)
+                                       saveRDS(list(a = a, p = p), file = paste0(outpath, p$data_name, "/cases/", paste0(params[i, ], collapse = "_"),  ".rds"))
+                                     }
+                                   }
+                                   
+                                   gc()
+                                   res_list = list(a = a, p = p, ensemble = 0)
+                                   
+                                   return(res_list)
+                                 }
+                               }
     stopCluster(cl)
+    res_all <- res_all_parallel
     for (i in 1:nrow(params)) {
       names(res_all)[i] =  paste0(params[i, ], collapse = "_")
     }
   }
-else {
+ else {
     for (i in 1:nrow(params)) {
       p <- params[i,]
       if (p$dmeths %in% exclude) {
