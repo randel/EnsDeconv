@@ -57,6 +57,7 @@
 #' @importFrom sparseMatrixStats rowVars
 #' @importFrom  Seurat FindAllMarkers CreateSeuratObject
 #' @importFrom scran findMarkers
+#' @importFrom R.utils withTimeout
 #' @import glmnet
 #' @export
 #'
@@ -192,21 +193,12 @@ gen_all_res_list = function(count_bulk,ref_list,enableFileSaving,exportRef = FAL
       Dataset <- get_input_ensemble(count_bulk = count_bulk, ref_matrix = ref_list[[p$data_name]]$ref_matrix, meta_bulk = NULL,
                                     meta_ref = ref_list[[p$data_name]]$meta_ref, true_frac = true_frac, params = p)
       
-      # recording time
-      time_taken <- system.time({
-        a <- try(analyze(p$Marker.Method, q = p$Quantile, n_markers = p$n_markers, gamma = p$gamma, dmeths = p$dmeths,
-                         normalize = p$Normalize, datasets = Dataset, scale = p$Scale, exportRef = exportRef))
-      })
-      
-      if (inherits(a, "try-error") || time_taken[3] > p$time_limit) {
-        warning(sprintf("Method %s time out and is ignored", p$dmeths))
-        exclude <- c(exclude, p$dmeths)  # if this method time out in one scenario，blacklist it
-        res_all[[i]] <- NULL  
-        next  # skip if time out
-      }
-      
+     
+        a <- analyze(p$Marker.Method, q = p$Quantile, n_markers = p$n_markers, gamma = p$gamma, dmeths = p$dmeths,
+                         normalize = p$Normalize, datasets = Dataset, scale = p$Scale, exportRef = exportRef,parallel=parallel_comp,time_limit=p$time_limit)
+  
       gc()
-      res_all[[i]] <- list(a = a, p = p)
+      res_all[[i]] <- list(a = a, p = p,ensemble=0)
       
       if (enableFileSaving) {
         if (!is.null(outpath)) {

@@ -133,33 +133,57 @@ analyze_dset <- function(dset, method, q, n_markers, gamma, dmeths, verb, normal
 
 #################### analyze #################
 
-
-analyze <- function(method, q, n_markers,gamma, dmeths = NULL, verb = TRUE, normalize = TRUE,scale = scale,
-                    datasets = NULL,exportRef = FALSE) {
+analyze <- function(method, q, n_markers, gamma, dmeths = NULL, verb = TRUE, normalize = TRUE, scale = scale,
+                    datasets = NULL, exportRef = FALSE, time_limit = Inf, parallel = FALSE) {
   sig <- paste(method, q, gamma)
   updt(paste(sig, "Starting."), init = TRUE)
-
-  start_time <- Sys.time()
-
-  output <- lapply(datasets, function(dset) analyze_dset(dset, method =method, q = q,n_markers =n_markers, gamma=gamma,
-                                                         dmeths = dmeths, verb = verb, normalize = normalize,scale = scale,  exportRef = exportRef))
-  end_time <- Sys.time()
-
-
-    p_hat <- lapply(output, "[[", "p_hat")
-    p_truth <- lapply(output, "[[", "p_truth")
-    n_choose <- lapply(output, "[[", "n_choose")
-    markers <- lapply(output, "[[", "markers")
-    markers_old <- lapply(output, "[[", "markers_old")
-    timing <- lapply(output, "[[", "timing")
-    if(exportRef){
-      Sigs <- lapply(output, "[[", "signature")
-    }else{
-      Sigs <- NULL
-    }
-    return(list(p_hat = p_hat, p_truth = p_truth, n = n_choose, time = timing,markers=markers,markers_old=markers_old,all_time =  (end_time - start_time),Sigs = Sigs))
   
-
-
+  if (parallel == FALSE) {
+    start_time <- Sys.time()
+    
+    output <- lapply(datasets, function(dset) {
+      tryCatch({
+        withTimeout({
+          analyze_dset(dset, method = method, q = q, n_markers = n_markers, gamma = gamma,
+                       dmeths = dmeths, verb = verb, normalize = normalize, scale = scale, exportRef = exportRef)
+        }, timeout = time_limit)
+      }, TimeoutException = function(ex) {
+        message(paste("Timeout reached for dataset", dset$annotation$data_type))
+        return(NULL)  #  NULL
+      }, error = function(e) {
+        # ignore other errors
+        return(NULL)
+      })
+    })
+    
+    end_time <- Sys.time()
+  } else {
+    start_time <- Sys.time()
+    
+    output <- lapply(datasets, function(dset) {
+      analyze_dset(dset, method = method, q = q, n_markers = n_markers, gamma = gamma,
+                   dmeths = dmeths, verb = verb, normalize = normalize, scale = scale, exportRef = exportRef)
+    })
+    
+    end_time <- Sys.time()
+  }
+  
+  output <- output[!sapply(output, is.null)]
+  
+  p_hat <- lapply(output, "[[", "p_hat")
+  p_truth <- lapply(output, "[[", "p_truth")
+  n_choose <- lapply(output, "[[", "n_choose")
+  markers <- lapply(output, "[[", "markers")
+  markers_old <- lapply(output, "[[", "markers_old")
+  timing <- lapply(output, "[[", "timing")
+  
+  if (exportRef) {
+    Sigs <- lapply(output, "[[", "signature")
+  } else {
+    Sigs <- NULL
+  }
+  
+  return(list(p_hat = p_hat, p_truth = p_truth, n = n_choose, time = timing, markers = markers,
+              markers_old = markers_old, all_time = (end_time - start_time), Sigs = Sigs))
 }
 
